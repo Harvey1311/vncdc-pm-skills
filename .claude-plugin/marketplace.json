@@ -1,0 +1,22 @@
+{
+  "name": "vncdc-pm-skills",
+  "owner": {
+    "name": "Harvey Pham",
+    "email": "harvey.pham@tpisoftware.com"
+  },
+  "metadata": {
+    "description": "VNCDC PM/PO skills for standardized product delivery artifacts",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "user-story-standard",
+      "description": "Company standard for converting product requirements into standardized user-story .md files and Jira issues",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/user-story-standard"
+      ]
+    }
+  ]
+}
