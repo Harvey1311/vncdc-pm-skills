@@ -128,6 +128,18 @@ Declarative present tense - state what IS true after implementation.
 - Bad: `System should validate` (never "should")
 - Bad: `The system will validate` (never future tense)
 
+### Make every criterion concrete and testable
+A criterion that cannot be checked is not a criterion. Turn abstract statements into specific,
+verifiable ones. If the input does not give the concrete figure, write `[BRACKETS]` and flag it -
+do not leave it vague, and do not invent a number.
+
+| Vague (reject) | Concrete (write this) |
+|----------------|------------------------|
+| System should be fast | Page loads in under `2s` on a 3G connection |
+| Users can search | User can find orders by customer name, date range, or status |
+| Good error handling | On network failure, retry `3x` then show an offline message |
+| It must be secure | Session times out after `15 min` of inactivity |
+
 ### Formatting inside AC bullets
 - **Bold** for UI-literal text (exact button labels, error messages, screen headings, status values):
   ```

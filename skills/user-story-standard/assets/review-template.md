@@ -18,7 +18,33 @@ Pre-generation analysis. **No story files are written until the PO approves this
 
 ---
 
-## 2. Ambiguity flags (must resolve before generation)
+## 2. Source traceability
+
+Every proposed story must trace to a real location in the source. This proves nothing was dropped
+or invented, and makes skipped rows visible.
+
+| Story slug | Source location | Notes |
+|------------|-----------------|-------|
+| [story-slug] | [e.g. Row 4 / Sheet "Stories" / PDF section 2.1] | [verbatim if helpful] |
+
+**Skipped source items** (not turned into a story, with reason):
+- [Row N / "original text"]: [heading row | duplicate | not a story | out of scope | etc.]
+
+---
+
+## 3. Coverage check (collective exhaustiveness)
+
+Every requirement in the source must map to at least one proposed story. Flag any source item with
+no story.
+
+- **Unmapped source items** (potential omissions): [Row/section that produced no story - confirm it
+  is intentional, or a story is missing.]
+
+(If none: "Every source item maps to a story or is listed as a deliberate skip above.")
+
+---
+
+## 4. Ambiguity flags (must resolve before generation)
 
 [RED] NEEDS INPUT
 - #[n] [Title]: [persona / goal / benefit / issue_type / enum value that cannot be determined]
@@ -27,7 +53,7 @@ Pre-generation analysis. **No story files are written until the PO approves this
 
 ---
 
-## 3. Dependency graph + validation
+## 5. Dependency graph + validation
 
 Relationships declared across the batch (by slug):
 
@@ -41,7 +67,7 @@ Relationships declared across the batch (by slug):
 
 ---
 
-## 4. Cross-story consistency
+## 6. Cross-story consistency
 
 - [Any two items that contradict each other, with the conflict described.]
 
@@ -49,15 +75,20 @@ Relationships declared across the batch (by slug):
 
 ---
 
-## 5. Duplicates / near-duplicates
+## 7. Duplicates / overlaps (mutual exclusivity)
 
-- #[n] and #[m] appear to cover the same feature - propose: [merge | keep separate because ...].
+Apply the merge test to every pair that looks related: **can these two stories be merged without
+losing meaning?** If yes, they are not distinct - merge them. Each story must capture one distinct
+behavior.
 
-(If none: "No duplicates found.")
+- #[n] and #[m]: [describe the overlap] -> propose: [merge into one | keep separate because they
+  capture genuinely distinct behaviors: ...].
+
+(If none: "All items are mutually exclusive; no merges proposed.")
 
 ---
 
-## 6. Risk notes
+## 8. Risk notes
 
 - #[n] [Title]: [oversized / vague / looks like a task or spike rather than a story / etc.]
 

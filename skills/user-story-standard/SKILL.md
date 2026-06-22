@@ -84,19 +84,26 @@ flag them in the review.
 - PDF/Word: find item boundaries by headings, numbering, or section breaks.
 - Pasted text: parse directly.
 - Detect each item's `issue_type` (Story / Bug / Spike / Task / Deployment).
+- **Record each item's source location** (row number, sheet, section, page) so every story can be
+  traced back in the review. Note any source item you do NOT turn into a story, and why.
 - **Edge cases - flag, do not guess:** merged cells, one row holding several items, blank rows
   (skip), image-only PDF with no extractable text (stop and say so), non-English input (flag for
   confirmation), IDs already present in the source (ignore them - we do not use synthetic IDs).
 
 ### Step 4 - Analysis pass: write `review.md` (NO story files yet)
 Produce `review.md` in the Output folder using `assets/review-template.md`. It must contain:
-1. **Proposed items** - a numbered list of `title` / `issue_type` / `epic` for every item.
-2. **Ambiguity flags** - anything where persona, goal, benefit, or `issue_type` cannot be determined.
-3. **Dependency graph + validation** - list every `Blocked by` / `Enables` relationship by slug, and
+1. **Proposed items** - a numbered list of `title` / `issue_type` / `epic` / slug for every item.
+2. **Source traceability** - a map from each story slug to the exact source location it came from,
+   plus a list of source items deliberately skipped (with reason). Proves nothing was invented.
+3. **Coverage check** - confirm every source requirement maps to at least one story; flag any
+   unmapped source item as a potential omission.
+4. **Ambiguity flags** - anything where persona, goal, benefit, or `issue_type` cannot be determined.
+5. **Dependency graph + validation** - list every `Blocked by` / `Enables` relationship by slug, and
    flag any reference that does **not** resolve to another item in this batch (dangling link).
-4. **Cross-story consistency** - flag any two items that contradict each other.
-5. **Duplicates** - flag near-duplicate items and propose merge/keep.
-6. **Risk notes** - items that look oversized, vague, or like a task/spike rather than a story.
+6. **Cross-story consistency** - flag any two items that contradict each other.
+7. **Duplicates / overlaps** - apply the merge test (can two stories be merged without losing
+   meaning? if yes, merge); propose merges.
+8. **Risk notes** - items that look oversized, vague, or like a task/spike rather than a story.
 
 Enum fields (`priority`, `category`, `issue_type`) that cannot be determined are flagged HERE and
 resolved with the PO - they must hold a real value before generation, never `TBD`.
