@@ -4,7 +4,7 @@ description: >-
   Company standard for converting product requirements into standardized user-story files and Jira
   issues. Use when a PM/PO wants to turn requirements (Excel, CSV, PDF, Word, a pasted table, or raw
   text) into individual story .md files with a fixed format, or to create standardized Jira issues
-  from those requirements. Triggers include "apply the guidebook", "convert this to user stories",
+  from those requirements. Triggers include "apply the user-story standard", "convert this to user stories",
   "generate user stories from <file>", "process this input", "standardize these stories", "create
   Jira stories/issues from <requirements>". Do NOT use for editing an existing single Jira ticket's
   wording, for writing PRDs or specs, or for non-story documents.

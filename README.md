@@ -29,7 +29,7 @@ In Claude Code:
 
 Restart or start a new session. The skill activates automatically when you ask things like:
 - "Convert this file to user stories"
-- "Apply the guidebook to this input"
+- "Apply the user-story standard to this input"
 - "Generate user stories from <file>"
 - "Create Jira stories from these requirements"
 
