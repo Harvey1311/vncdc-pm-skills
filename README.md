@@ -3,6 +3,11 @@
 Claude Code skills for VNCDC PMs and POs. Install once; everyone produces the same standardized
 output.
 
+> **Source of truth.** This repo is the authoritative home of the VNCDC user-story standard
+> (`skills/user-story-standard/`). It supersedes the original `Guidebook.md` (now archived for
+> provenance under `Project 9 - TestMD/Rules/Archive/`). Any review mirror elsewhere is a copy, not
+> a source - change the standard here.
+
 ## Skills
 
 ### `user-story-standard`
