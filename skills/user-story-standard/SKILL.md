@@ -57,9 +57,26 @@ Dependencies reference other stories by **slug** until push, then resolve to rea
 This is what makes re-runs safe: a repeated slug is a real "same story twice" signal, and a present
 `jira_key` means "already in Jira - do not duplicate."
 
+## Approval protocol - the rule that governs every gate
+
+This skill has two human gates: the **analysis approval** (step 5) and the **Jira push confirmation**
+(the dry-run in step 9). Both obey the same rule:
+
+- **Approval is explicit and arrives in a *later* message.** Never infer it from silence, from a clean
+  review with no flags, or from the original request. "Convert these and push them" authorizes
+  **neither** gate - it is a request, not an approval.
+- **After presenting anything that needs approval, STOP and end your turn.** Do not continue to the
+  next step in the same message. End with an explicit ask - e.g. "Reply APPROVE, or tell me what to
+  change" - not a trailing sentence the next step then runs past.
+- **Even when the review has zero flags, you still stop.** A clean review is exactly when the model is
+  most tempted to roll straight through - that temptation is the failure, not a license.
+- The two gates are independent: passing one never passes the other. Two separate explicit approvals,
+  always.
+
 ## Workflow - analysis first, generate second
 
-Follow these steps in order. **Nothing is written to disk until the analysis is approved (step 5).**
+Follow these steps in order. **No story files are written to disk until the analysis is approved
+(step 5); only `review.md` is written before then.**
 
 ### Step 1 - Load the standard
 Read `references/format-spec.md`, `references/jira-naming-convention.md`, and
@@ -78,6 +95,10 @@ Ask the PO for anything not already provided:
 
 If the PO says "use defaults", apply the default VNCDC web profile and `[bracket]` placeholders, and
 flag them in the review.
+
+**If the chosen profile is not VNCDC Web (default), read `references/stack-profiles.md` in full now,
+before proceeding to Step 3.** Step 6 generates the DoD and Technical Notes subsections against that
+profile - it must be loaded before then, not assumed.
 
 ### Step 3 - Parse the input
 - Excel/CSV: each row is usually one item; map columns to fields.
@@ -109,9 +130,19 @@ Enum fields (`priority`, `category`, `issue_type`) that cannot be determined are
 resolved with the PO - they must hold a real value before generation, never `TBD`.
 
 ### Step 5 - PO approves the analysis
-Show the `review.md` summary and **wait**. Resolve every 🔴 NEEDS INPUT item with the PO. If the PO
-asks to combine, split, rename, or reassign epics, update `review.md` and re-show it. Loop until the
-PO approves. Do not generate any story files before approval.
+Show the `review.md` summary, then **STOP and end your turn** per the Approval protocol above - do not
+continue to Step 6 in the same message, and do not treat a clean (zero-flag) review as approval.
+
+Resolve every 🔴 NEEDS INPUT item with the PO. Batch independent questions in one shot; ask
+sequentially only when one answer changes the next (e.g. confirm `issue_type` before asking for a
+persona).
+
+If the PO asks to combine, split, rename, or reassign epics, update `review.md`. **Any rename, split,
+or merge changes slugs** (the slug derives from the title, and dependencies reference other stories by
+slug). Before re-showing the updated review, **re-run the full Step 4 analysis** on the changed set: a
+rename can dangle a `Blocked by:` that validated clean a moment ago, and a split can create a new story
+that others should now depend on. Do not re-show without re-validating. Loop until the PO approves. Do
+not generate any story files before approval.
 
 ### Step 6 - Generate the story files
 Write one `.md` per approved item, applying `references/format-spec.md` exactly:
@@ -120,6 +151,10 @@ Write one `.md` per approved item, applying `references/format-spec.md` exactly:
   subsections present; dependencies as bold labels with slugs.
 - **Collision rule:** if the target slug file already exists, show a diff and ask the PO to **skip**,
   **overwrite**, or **write under a new slug**. Never silently clobber a file (it may hold edits).
+- **`jira_key` hard stop:** if the existing file carries a **non-empty `jira_key`**, this is not a plain
+  collision - the story is already live in Jira and `jira_key` cannot be regenerated (Jira assigns it;
+  you never invent it). Do **not** offer a silent overwrite. Surface the `jira_key`, state that
+  overwriting destroys the Jira linkage, and require explicit PO direction before doing anything.
 
 ### Step 7 - Completion summary
 List the files written and their locations.
@@ -130,10 +165,18 @@ presence) - **never** silently fill content. Then emit the **Flags Summary** (fo
 `references/format-spec.md`). Because content gaps were resolved at step 5, this is normally just
 🔵 technical placeholders for the dev team and ⬜ skipped rows.
 
+**Tripwire:** if any 🔴 NEEDS INPUT survives to this point, generation ran before the analysis was
+approved. STOP - do not emit a completion summary - and return to Step 5 for approval.
+
 ### Step 9 - Optional Jira push
 Only if the PM asks. Read `references/jira-push.md` and follow it. It discovers Jira custom-field IDs
 (never hardcoded), prints a dry-run table, requires explicit confirmation before any write, resolves
 dependencies into real issue links, and writes the resulting `jira_key` back into each file.
+
+The dry-run confirmation is the **second gate** and obeys the Approval protocol above: present the
+dry-run table, STOP and end your turn, and write nothing until the PO explicitly confirms in a later
+message. A push request made back at the start does not pre-authorize this - the step 5 approval and
+this confirmation are two separate gates.
 
 ## Output layout
 
