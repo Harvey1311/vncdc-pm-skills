@@ -46,27 +46,6 @@ jira_key:
 
 ---
 
-## Technical Notes
-
-### Frontend
-- **Modify:** `frontend/src/components/UserSettingsPage.tsx` - add display name field and toggles
-- **Display name field:** Radix UI `Input` with character counter; validate on blur (min 2, max 50)
-- **Notification toggles:** Radix UI `Switch`; two switches (one per event type)
-- **Save:** call `user.service.ts:updatePreferences({ displayName, notifications })` on button click
-- **Immediate name update:** after save, call `useAuth().refreshUser()` to sync context
-
-### Backend
-- **Modify `UserController.java`:** `PUT /api/users/me/preferences` - accept `{ displayName: String, notifications: { reportGenerated: Boolean, exportReady: Boolean } }`
-- **Modify `UserResponseDTO.java`:** add `displayName` and `notificationPreferences` fields
-- **Verify `users` table** has a `display_name VARCHAR(50)` column; if not, add a Liquibase migration `0000000011__add_display_name_to_users.sql`
-
-### Reuse
-- `user.service.ts` (existing) - extend with `updatePreferences()` method
-- `useAuth()` hook (existing) for refreshing user context after save
-- Radix UI `Input`, `Switch`, `Toast` components
-
----
-
 ## Definition of Done
 - [ ] All acceptance criteria implemented and verified
 - [ ] Display name validation tested: <2 chars -> error, >50 chars -> error, valid -> saves
@@ -90,4 +69,3 @@ jira_key:
 - The DoD = universal core + VNCDC Web profile items + one story-specific test item.
 - `Blocked by` references another story by **slug** (`user-authentication`), which must exist in the
   same batch or be flagged as dangling.
-- Three Technical Notes subsections, all present; `Reuse` is non-empty.

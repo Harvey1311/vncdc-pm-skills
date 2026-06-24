@@ -1,8 +1,8 @@
 # Stack Profiles
 
-The format in `format-spec.md` is universal. A few pieces depend on the project's technology stack -
-the Technical Notes subsection set and some Definition of Done items. Those live here as **profiles**
-so a non-web or non-TypeScript team can adopt the same format without inheriting another team's stack.
+The format in `format-spec.md` is universal. The one piece that depends on the project's technology
+stack is a few Definition of Done items. They live here as **profiles** so a non-web or
+non-TypeScript team can adopt the same format without inheriting another team's stack.
 
 Pick the profile in step 2 of the workflow. Default is **VNCDC Web** when the PM says "use defaults."
 
@@ -27,8 +27,6 @@ Profile items are inserted between the first and last core items.
 The stack the original standard assumed: TypeScript/React frontend, Java backend, i18n in English +
 Traditional Chinese.
 
-**Technical Notes subsections:** `Frontend`, `Backend`, `Reuse`.
-
 **DoD profile items:**
 ```markdown
 - [ ] TypeScript compiles without errors (`tsc --noEmit`)
@@ -48,8 +46,6 @@ translation item with:
 
 No UI; no i18n.
 
-**Technical Notes subsections:** `Backend`, `Reuse` (omit `Frontend`).
-
 **DoD profile items:**
 ```markdown
 - [ ] [compile/build check for the language, e.g. `mvn compile` or `go build ./...`]
@@ -61,8 +57,6 @@ No UI; no i18n.
 ## Profile: Data / Pipeline
 
 ETL, batch jobs, schema work.
-
-**Technical Notes subsections:** `Pipeline`, `Data`, `Reuse`.
 
 **DoD profile items:**
 ```markdown
@@ -78,20 +72,16 @@ ETL, batch jobs, schema work.
 When none of the above fits. Keep the universal core only and ask the PM for the project's
 build/verify command and whether i18n applies.
 
-**Technical Notes subsections:** `Implementation`, `Reuse`.
-
 **DoD profile items:** ask the PM; at minimum a build/verify item.
 
 ---
 
 ## How to use a profile
 1. In step 2, set the profile (default VNCDC Web).
-2. Apply that profile's Technical Notes subsection set wherever `format-spec.md` says "from the
-   chosen profile."
-3. Build the DoD as: universal core (first item) + profile items + universal core (remaining items),
-   plus any story-specific DoD items from `format-spec.md` section 6.
-4. Record the chosen profile in `review.md` so the PO can see and override it.
+2. Build the DoD as: universal core (first item) + profile items + universal core (remaining items),
+   plus any story-specific DoD items from `format-spec.md` section 5.
+3. Record the chosen profile in `review.md` so the PO can see and override it.
 
 ## Adding a new profile
-Profiles are intentionally simple: a Technical Notes subsection list + a short DoD item list. To add
-one for a new stack, copy a section above and adjust. Keep the universal core untouched.
+Profiles are intentionally simple: a short DoD item list. To add one for a new stack, copy a section
+above and adjust. Keep the universal core untouched.

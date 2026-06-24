@@ -54,7 +54,7 @@ For each story `.md`, map fields to Jira:
 | `.md` source | Jira field |
 |--------------|------------|
 | `title` | Summary (plain title convention - no prefix) |
-| User Story + Acceptance Criteria + Technical Notes + Definition of Done | Description |
+| User Story + Acceptance Criteria + Definition of Done | Description |
 | `issue_type` | Issue Type |
 | `priority` | Priority |
 | `story_points` | Story Points (discovered custom field) |
@@ -65,7 +65,7 @@ For each story `.md`, map fields to Jira:
 
 Render the Description from the `.md` **body only** - strip the YAML frontmatter (those fields map to
 native Jira fields above, not into the Description). Keep the section structure (User Story, Acceptance
-Criteria as a checklist, Technical Notes, Definition of Done). `TBD` and `[BRACKETS]` carry over as-is
+Criteria as a checklist, Definition of Done). `TBD` and `[BRACKETS]` carry over as-is
 so the dev team sees what is still open. On the first real push, **verify** that the `- [ ]`
 acceptance-criteria lines render as a real Jira task list (not literal text) after the MCP's
 markdown-to-ADF conversion; if they do not, adjust the render and re-confirm.

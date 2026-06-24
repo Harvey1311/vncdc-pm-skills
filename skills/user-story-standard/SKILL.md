@@ -24,11 +24,11 @@ style, and naming, regardless of project, stack, or operator.
 | Layer | What it covers | Your role |
 |-------|----------------|-----------|
 | **Format** | Section order, heading names, frontmatter fields, checkbox syntax, hyphen usage (ASCII-only), slug naming, the Jira naming convention | Follow exactly - no exceptions |
-| **Content** | The user-story sentence, acceptance criteria, Technical Notes detail, DoD specifics | Infer from input, adapt to context, flag gaps - never fabricate |
+| **Content** | The user-story sentence, acceptance criteria, DoD specifics | Infer from input, adapt to context, flag gaps - never fabricate |
 
-This is not a stamp. A story with 2 honest acceptance criteria beats one padded to 5. Technical Notes
-that say `[BRACKETS]` where the tech is unknown beat invented file paths. When in doubt: **write what
-you know, flag what you don't, ask when you're blocked.**
+This is not a stamp. A story with 2 honest acceptance criteria beats one padded to 5. An acceptance
+criterion that says `[BRACKETS]` where a concrete figure is unknown beats an invented number. When in
+doubt: **write what you know, flag what you don't, ask when you're blocked.**
 
 ## Before you start - read the standard
 
@@ -36,11 +36,11 @@ This SKILL.md is the orchestrator. The binding rules live in `references/` and y
 relevant ones in full before generating anything:
 
 - `references/format-spec.md` - frontmatter, section order, story template, acceptance criteria,
-  Technical Notes, Definition of Done, dependencies, and slug naming. **Read this in full first.**
+  Definition of Done, dependencies, and slug naming. **Read this in full first.**
 - `references/jira-naming-convention.md` - the universal Jira Summary convention.
 - `references/worked-example.md` - one complete, format-exact example to pattern-match against.
 - `references/stack-profiles.md` - read only when the project's stack is not the default VNCDC web
-  stack, or when the PM asks about the DoD / Technical Notes shape.
+  stack, or when the PM asks about the DoD shape.
 - `references/jira-push.md` - read only when the PM asks to push to Jira (workflow step 9).
 - `assets/blank-template.md` - the empty story to copy.
 - `assets/review-template.md` - the shape of the pre-generation `review.md`.
@@ -92,7 +92,7 @@ Ask the PO for anything not already provided:
 | Item | Why it's needed |
 |------|-----------------|
 | Epic name(s) | Frontmatter `epic` and folder grouping; matches the Jira Epic name |
-| Stack profile | Decides DoD items + Technical Notes shape (default: VNCDC web - see `stack-profiles.md`) |
+| Stack profile | Decides DoD items (default: VNCDC web - see `stack-profiles.md`) |
 | Branch model | DoD merge line (`[target-branch]` / `[source-branch]` placeholders if unknown) |
 | i18n requirement | DoD translation item wording (or "no i18n" if not applicable) |
 | Target Jira project key | Only if a push is wanted later (e.g. `KAI`, `MKL`, `ODS`) |
@@ -101,8 +101,8 @@ If the PO says "use defaults", apply the default VNCDC web profile and `[bracket
 flag them in the review.
 
 **If the chosen profile is not VNCDC Web (default), read `references/stack-profiles.md` in full now,
-before proceeding to Step 3.** Step 6 generates the DoD and Technical Notes subsections against that
-profile - it must be loaded before then, not assumed.
+before proceeding to Step 3.** Step 6 generates the DoD against that profile - it must be loaded
+before then, not assumed.
 
 ### Step 3 - Parse the input
 - Excel/CSV: each row is usually one item; map columns to fields.
@@ -157,8 +157,8 @@ not generate any story files before approval.
 ### Step 6 - Generate the story files
 Write one `.md` per approved item, applying `references/format-spec.md` exactly:
 - Slug filename under the epic folder: `Output/epic-<slug>/<story-slug>.md`.
-- All frontmatter fields present (`jira_key` empty); all checkboxes unchecked; three Technical Notes
-  subsections present; dependencies as bold labels with slugs.
+- All frontmatter fields present (`jira_key` empty); all checkboxes unchecked; dependencies as bold
+  labels with slugs.
 - **Collision rule:** if the target slug file already exists, show a diff and ask the PO to **skip**,
   **overwrite**, or **write under a new slug**. Never silently clobber a file (it may hold edits).
 - **`jira_key` hard stop:** if the existing file carries a **non-empty `jira_key`**, this is not a plain
@@ -170,8 +170,8 @@ Write one `.md` per approved item, applying `references/format-spec.md` exactly:
 List the files written and their locations.
 
 ### Step 8 - Post-generation QA
-Re-read each file. Silently fix **format only** (field order, dividers, checkbox state, subsection
-presence) - **never** silently fill content. Then emit the **Flags Summary** (format in
+Re-read each file. Silently fix **format only** (field order, dividers, checkbox state) - **never**
+silently fill content. Then emit the **Flags Summary** (format in
 `references/format-spec.md`). Because content gaps were resolved at step 5, this is normally just
 🔵 technical placeholders for the dev team and ⬜ skipped rows.
 

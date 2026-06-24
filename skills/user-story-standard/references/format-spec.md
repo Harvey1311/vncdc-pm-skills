@@ -67,10 +67,6 @@ Every story contains exactly these sections in this order:
 
 ---
 
-## Technical Notes
-
----
-
 ## Definition of Done
 
 ---
@@ -78,9 +74,9 @@ Every story contains exactly these sections in this order:
 ## Dependencies
 ```
 
-**Horizontal rule (`---`) placement:** after User Story, after Acceptance Criteria, after Technical
-Notes, and after Definition of Done (immediately before Dependencies). **NOT** between the closing
-`---` of the YAML block and `## User Story` - the YAML delimiter is not a section divider.
+**Horizontal rule (`---`) placement:** after User Story, after Acceptance Criteria, and after
+Definition of Done (immediately before Dependencies). **NOT** between the closing `---` of the YAML
+block and `## User Story` - the YAML delimiter is not a section divider.
 
 ---
 
@@ -155,50 +151,7 @@ do not leave it vague, and do not invent a number.
 
 ---
 
-## 5. Technical Notes
-
-### Mandatory subsections (default VNCDC web profile)
-Exactly three, in this order. Never omit one, even when empty.
-```markdown
-### Frontend
-### Backend
-### Reuse
-```
-For non-web stacks, the subsection set comes from the chosen profile in `stack-profiles.md`.
-
-### Multi-milestone variant
-When a story has a silent backend milestone (M0) separate from the UI milestone, annotate the
-subsection headings:
-```markdown
-### Backend - M0 (Silent Deploy)
-### Frontend - M# (Milestone Name)
-### Reuse
-```
-Use only when `milestone` contains `M0 - Silent Backend`.
-
-### Empty subsection wording
-```
-### Backend
-- No backend changes required.
-```
-```
-### Frontend
-- No frontend changes required.
-```
-
-### Content style
-- **Bold labels** anchor each bullet: `**New component:**`, `**Modify:**`, `**Data:**`, `**Route:**`,
-  `**Key change:**`, `**New service:**`, `**New endpoint:**`, `**Verify:**`.
-- **Backticks** for all paths, component/function/class names, routes, field names, enum values.
-- **Code blocks** (fenced, with language) for SQL DDL, TypeScript/JavaScript, JSON.
-- Imperative verbs ("Add", "Modify", "Verify", "Ensure"), not hedges ("Consider", "Maybe", "Could").
-
-### Reuse is never empty
-Always list existing hooks, services, components, or utilities to reuse, with paths in backticks.
-
----
-
-## 6. Definition of Done
+## 5. Definition of Done
 
 `- [ ]` always unchecked. The DoD has a **universal core** plus **profile items**.
 
@@ -229,7 +182,7 @@ A non-TS or no-i18n project drops/replaces these per `stack-profiles.md`. `[targ
 
 ---
 
-## 7. Dependencies
+## 6. Dependencies
 
 References use **slugs** (the kebab-case filename without `.md`), not synthetic IDs. They resolve to
 real Jira issue links at push time.
@@ -253,7 +206,7 @@ in `review.md`. A parenthetical qualifier per slug is allowed:
 
 ---
 
-## 8. Slug and folder naming
+## 7. Slug and folder naming
 
 ### Story file name
 ```
@@ -281,7 +234,7 @@ One subfolder per epic when items span multiple epics.
 
 ---
 
-## 9. Flags Summary (Step 8 output)
+## 8. Flags Summary (Step 8 output)
 
 After generation, output a consolidated list of what needs human attention before dev handoff:
 
@@ -295,8 +248,8 @@ After generation, output a consolidated list of what needs human attention befor
     -> [field/section]: [the assumption]
 
 [BLUE] TECHNICAL PLACEHOLDERS (dev team must fill in)
-  <slug> - [Title]: Technical Notes contain [N] placeholder(s)
-    -> [Frontend / Backend]: [what needs to be specified]
+  <slug> - [Title]: contains [N] placeholder(s)
+    -> [Acceptance Criteria / DoD]: [what needs to be specified]
 
 [SKIPPED] (not converted - explain why)
   Row [N] - "[original text]": [reason skipped]
@@ -326,5 +279,4 @@ converted (heading row, duplicate, pure task, etc.).
 | Enum unknown | flag in review.md, resolve before generation - never `TBD` |
 | story_points / milestone unknown | `TBD` allowed |
 | Empty dependency | `none` (lowercase) |
-| Empty backend | `- No backend changes required.` |
-| Section dividers | `---` after User Story, AC, Technical Notes, DoD - not before User Story |
+| Section dividers | `---` after User Story, AC, DoD - not before User Story |

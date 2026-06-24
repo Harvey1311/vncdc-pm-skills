@@ -26,19 +26,6 @@ jira_key:
 
 ---
 
-## Technical Notes
-
-### Frontend
-- **[Label]:** [Description with `backticks` for file paths and identifiers]
-
-### Backend
-- No backend changes required.
-
-### Reuse
-- `[ExistingComponent]` - [why it is reused]
-
----
-
 ## Definition of Done
 - [ ] All acceptance criteria implemented and verified
 - [ ] TypeScript compiles without errors (`tsc --noEmit`)
