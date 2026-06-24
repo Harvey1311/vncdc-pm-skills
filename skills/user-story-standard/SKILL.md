@@ -23,7 +23,7 @@ style, and naming, regardless of project, stack, or operator.
 
 | Layer | What it covers | Your role |
 |-------|----------------|-----------|
-| **Format** | Section order, heading names, frontmatter fields, checkbox syntax, en-dash vs hyphen, slug naming, the Jira naming convention | Follow exactly - no exceptions |
+| **Format** | Section order, heading names, frontmatter fields, checkbox syntax, hyphen usage (ASCII-only), slug naming, the Jira naming convention | Follow exactly - no exceptions |
 | **Content** | The user-story sentence, acceptance criteria, Technical Notes detail, DoD specifics | Infer from input, adapt to context, flag gaps - never fabricate |
 
 This is not a stamp. A story with 2 honest acceptance criteria beats one padded to 5. Technical Notes
@@ -65,6 +65,10 @@ This skill has two human gates: the **analysis approval** (step 5) and the **Jir
 - **Approval is explicit and arrives in a *later* message.** Never infer it from silence, from a clean
   review with no flags, or from the original request. "Convert these and push them" authorizes
   **neither** gate - it is a request, not an approval.
+- **A blanket pre-authorization is not approval.** "Just generate them, I trust you, don't wait" given
+  *before* the review exists does not authorize generation - you cannot approve an analysis that does
+  not exist yet. Approval is only meaningful after the review is presented. Acknowledge the
+  instruction, produce the review, then still stop for approval.
 - **After presenting anything that needs approval, STOP and end your turn.** Do not continue to the
   next step in the same message. End with an explicit ask - e.g. "Reply APPROVE, or tell me what to
   change" - not a trailing sentence the next step then runs past.
@@ -125,6 +129,12 @@ Produce `review.md` in the Output folder using `assets/review-template.md`. It m
 7. **Duplicates / overlaps** - apply the merge test (can two stories be merged without losing
    meaning? if yes, merge); propose merges.
 8. **Risk notes** - items that look oversized, vague, or like a task/spike rather than a story.
+9. **Requirement quality (testability + non-functional)** - for each item, check the source is concrete
+   enough to yield a testable, measurable acceptance criterion. Flag any requirement too vague to
+   become a checkable AC (it would otherwise force a vague AC or a `[BRACKETS]` placeholder at
+   generation). Also surface any non-functional dimension the source *implies but does not state* -
+   performance, security, accessibility - and flag it for the PO to confirm or drop. **Never invent an
+   NFR or a concrete measure the source did not provide** - flag it, do not fill it.
 
 Enum fields (`priority`, `category`, `issue_type`) that cannot be determined are flagged HERE and
 resolved with the PO - they must hold a real value before generation, never `TBD`.

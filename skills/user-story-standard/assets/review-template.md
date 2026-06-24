@@ -96,6 +96,23 @@ behavior.
 
 ---
 
+## 9. Requirement quality (testability + non-functional)
+
+Each requirement must be concrete enough to become a testable, measurable acceptance criterion, and
+any implied non-functional need must be surfaced - not invented.
+
+**Untestable / unmeasurable source** (would force a vague AC or a `[BRACKETS]` placeholder at
+generation - needs a concrete figure or condition from the PO):
+- #[n] [Title]: [what is too vague - e.g. "fast", "secure", "user-friendly" with no measurable bar]
+
+**Implied non-functional requirements** (performance / security / accessibility the source implies but
+does not state - PO to confirm or drop; never invented):
+- #[n] [Title]: [the implied NFR - e.g. public page implies rate-limiting; PII implies encryption]
+
+(If none: "Every requirement is concrete enough for a testable AC; no unstated NFRs surfaced.")
+
+---
+
 ## Decision needed
 
 Reply with approval, or tell me which items to combine, split, rename, re-type, or reassign to a
