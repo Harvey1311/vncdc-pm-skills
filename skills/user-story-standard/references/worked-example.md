@@ -4,7 +4,7 @@ One complete story conforming to the standard. Content is synthetic; the format 
 match generated files against this.
 
 **File name:** `user-profile-settings.md`
-**Saved to:** `Output/epic-user-settings/user-profile-settings.md`
+**Saved to:** `<output-dir>/epic-user-settings/user-profile-settings.md` (e.g. `Output/acme-requirements-user-stories/epic-user-settings/...`; `<output-dir>` is resolved per SKILL.md Output layout)
 **Profile:** VNCDC Web (default)
 
 ```markdown

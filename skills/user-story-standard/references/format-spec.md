@@ -208,23 +208,48 @@ in `review.md`. A parenthetical qualifier per slug is allowed:
 
 ## 7. Slug and folder naming
 
+### Slugify rule (used for every slug: story files, epic folders, the output folder)
+Derive a slug from text **deterministically**, so the same input always yields the same slug on every
+machine and operator:
+
+1. Lowercase the text.
+2. Replace each **run of non-alphanumeric characters** (spaces, underscores, dots, slashes,
+   ampersands, existing hyphens, etc.) with a **single hyphen** `-`.
+3. Trim any leading or trailing hyphen.
+
+Examples: `Sprint 17_v1.0` -> `sprint-17-v1-0`; `Report & Export` -> `report-export`;
+`Re-generate AI Switch` -> `re-generate-ai-switch`.
+
+Do **not** implement this as "delete the punctuation" - deleting collapses tokens (`v1.0` -> `v10`)
+and diverges between operators, which breaks the byte-identical-output and re-run-safety guarantees.
+Always convert a run of non-alphanumerics to one hyphen.
+
+"Alphanumeric" means ASCII `a-z` and `0-9`. Translate or transliterate any non-ASCII text (Vietnamese,
+CJK, accented letters) to ASCII first - the non-English handling in SKILL.md Step 3 already routes such
+input to an English `title` before a slug is derived, so a slug is normally built from ASCII text. If
+slugifying would yield an empty string, do not invent one - flag the item for a PO-provided title.
+
 ### Story file name
 ```
 <story-slug>.md
 ```
-- Slug derived from the title: lowercase, spaces to hyphens, punctuation removed.
+- `<story-slug>` = the `title` run through the Slugify rule.
 - Examples: `landing-page.md`, `config-builder-summary.md`, `regeneration-ai-switch.md`.
 
 ### Epic folder name
 ```
 epic-<epic-slug>/
 ```
-- Slug derived from the epic name: lowercase, spaces to hyphens, punctuation removed.
+- `<epic-slug>` = the epic name run through the Slugify rule.
 - Examples: `epic-landing-page/`, `epic-report-configuration-builder/`.
 
 ### Output directory structure
+The output folder is resolved by SKILL.md (see its **Output layout** section): an existing `Output/`
+in the working directory, else the input file's own directory, with a `<source-slug>-user-stories/`
+subfolder inside (`<source-slug>` = the input filename without extension, slugified per section 7).
+That resolved folder is `<output-dir>` below.
 ```
-Output/
+<output-dir>/
 ├── review.md
 └── epic-<epic-slug>/
     ├── <story-slug>.md

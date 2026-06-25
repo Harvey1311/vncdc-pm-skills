@@ -104,6 +104,11 @@ flag them in the review.
 before proceeding to Step 3.** Step 6 generates the DoD against that profile - it must be loaded
 before then, not assumed.
 
+**Resolve the output location now** (smart default - do not ask): pick the destination per the
+**Output layout** section below, then state the resolved path in plain text before you write anything.
+The skill never assumes a fixed `Output/` exists; it resolves a folder and announces it, and the PO
+can redirect. The same resolved folder is reused for `review.md` (Step 4) and the story files (Step 6).
+
 ### Step 3 - Parse the input
 - Excel/CSV: each row is usually one item; map columns to fields.
 - PDF/Word: find item boundaries by headings, numbering, or section breaks.
@@ -116,7 +121,8 @@ before then, not assumed.
   confirmation), IDs already present in the source (ignore them - we do not use synthetic IDs).
 
 ### Step 4 - Analysis pass: write `review.md` (NO story files yet)
-Produce `review.md` in the Output folder using `assets/review-template.md`. It must contain:
+Produce `review.md` in the resolved output folder (see **Output layout**) using
+`assets/review-template.md`. It must contain:
 1. **Proposed items** - a numbered list of `title` / `issue_type` / `epic` / slug for every item.
 2. **Source traceability** - a map from each story slug to the exact source location it came from,
    plus a list of source items deliberately skipped (with reason). Proves nothing was invented.
@@ -156,7 +162,8 @@ not generate any story files before approval.
 
 ### Step 6 - Generate the story files
 Write one `.md` per approved item, applying `references/format-spec.md` exactly:
-- Slug filename under the epic folder: `Output/epic-<slug>/<story-slug>.md`.
+- Slug filename under the epic folder: `<output-dir>/epic-<slug>/<story-slug>.md`, where
+  `<output-dir>` is the folder resolved in Step 2 (see **Output layout**).
 - All frontmatter fields present (`jira_key` empty); all checkboxes unchecked; dependencies as bold
   labels with slugs.
 - **Collision rule:** if the target slug file already exists, show a diff and ask the PO to **skip**,
@@ -167,7 +174,8 @@ Write one `.md` per approved item, applying `references/format-spec.md` exactly:
   overwriting destroys the Jira linkage, and require explicit PO direction before doing anything.
 
 ### Step 7 - Completion summary
-List the files written and their locations.
+List the files written and their locations, including the resolved output folder path (the same one
+announced before generation).
 
 ### Step 8 - Post-generation QA
 Re-read each file. Silently fix **format only** (field order, dividers, checkbox state) - **never**
@@ -190,8 +198,36 @@ this confirmation are two separate gates.
 
 ## Output layout
 
+### Resolving the output folder (before the first write; announce it)
+The skill does not assume a fixed `Output/` exists. Resolve the destination once, at the start
+(Step 2), and reuse it for every write (`review.md` at Step 4, story files at Step 6):
+
+1. **Base directory** - the first that applies:
+   - An `Output/` folder exists in the **current working directory** -> base = that `Output/`.
+     ("Current working directory" is wherever the session is running; in a VNCDC project that is the
+     project root, so this preserves the existing `Output/` workflow.)
+   - Otherwise -> base = the directory that contains the input file.
+2. **Output folder** - inside the base, always a folder named from the source file:
+   `<base>/<source-slug>-user-stories/`, where `<source-slug>` is the input filename **without its
+   extension, run through the Slugify rule** in `format-spec.md` section 7. Example:
+   `Q3 Feature Requests.csv` -> `q3-feature-requests-user-stories/`. A deterministic, source-derived name means the same input
+   always resolves to the same folder, so the Step 6 collision rule and the `jira_key` hard stop keep
+   working across separate sessions. For pasted text with no input file, use `<base>/user-stories/`
+   and say so.
+3. **Announce, do not ask.** Before the first write, state the **actual resolved path from steps 1-2**
+   (the real one - not the placeholder, and not always `Output/...`), e.g. "Writing analysis to
+   `<resolved-path>/review.md` - tell me if you want it elsewhere." If the PO names a different path,
+   use it verbatim. Repeat the final path in the Step 7 summary.
+
+**Never create a per-session or timestamped folder.** A fresh folder per run orphans earlier output
+and silently defeats re-run safety (the collision and `jira_key` guards can only fire if a re-run
+lands in the same folder). The folder name comes from the source, never from the session.
+
+### Structure
+`<output-dir>` below = `<base>/<source-slug>-user-stories/`, resolved above.
+
 ```
-Output/
+<output-dir>/
 ├── review.md                       (the approved analysis)
 └── epic-<slug>/
     ├── <story-slug>.md
