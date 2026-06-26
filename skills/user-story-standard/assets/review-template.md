@@ -89,11 +89,21 @@ behaviour.
 
 ---
 
-## 8. Risk notes
+## 8. Risk notes + decomposition proposals
 
 - #[n] [Title]: [oversized / vague / looks like a task or spike rather than a story / etc.]
 
-(If none: "No risks flagged.")
+**Oversized items - proposed slices** (advisory; the PO accepts or rejects at approval). Re-partitions
+only behaviour the source already states - no invented scope. The proposed slices appear as the items
+in section 1 so the other checks can validate them; the split stays advisory (single-story fallback
+offered) until the PO accepts it.
+- #[n] [Title] looks oversized. Slicing lens: [by workflow step | by operation create/read/update/delete
+  | happy-path-then-edge-cases | by user role | by data variation]. Proposed slices:
+  - [proposed-title] (`proposed-slug`) - [the source behaviour this slice covers]
+  - [proposed-title] (`proposed-slug`) - [...]
+  [If a clean slice would need behaviour the source does not state, say so here instead of inventing it.]
+
+(If none: "No risks flagged; no items need slicing.")
 
 ---
 

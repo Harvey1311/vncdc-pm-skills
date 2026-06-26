@@ -14,7 +14,9 @@ output.
 Converts product requirements (Excel, CSV, PDF, Word, pasted table, or raw text) into individual
 user-story `.md` files in a fixed company format, then optionally creates standardized Jira issues
 from them. Analysis-first: it writes a `review.md` and waits for your sign-off before generating any
-files, so nothing incomplete reaches disk or Jira.
+files, so nothing incomplete reaches disk or Jira. When a requirement is too big for one story, the
+review proposes how to slice it into smaller, independently shippable stories - advisory only; you
+accept or reject at sign-off.
 
 ## Install
 
@@ -48,7 +50,8 @@ centrally rather than copying files around.
 
 1. **Collect context** - epic, stack profile, branch model, i18n, target Jira project (if pushing).
 2. **Analyze** - parse the input, write `review.md` (proposed items, ambiguity flags, dependency-graph
-   validation, duplicates, risks). Nothing is generated yet.
+   validation, duplicates, risks, and proposed slices for any oversized requirement). Nothing is
+   generated yet.
 3. **You approve** - resolve flags, rename/split/merge as needed.
 4. **Generate** - one `.md` per item, slug-named, in the company format.
 5. **Optional Jira push** - dry-run table, explicit confirmation, then create issues + real

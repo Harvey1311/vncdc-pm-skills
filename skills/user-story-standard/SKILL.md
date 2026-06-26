@@ -116,9 +116,11 @@ can redirect. The same resolved folder is reused for `review.md` (Step 4) and th
 - Detect each item's `issue_type` (Story / Bug / Spike / Task / Deployment).
 - **Record each item's source location** (row number, sheet, section, page) so every story can be
   traced back in the review. Note any source item you do NOT turn into a story, and why.
-- **Edge cases - flag, do not guess:** merged cells, one row holding several items, blank rows
-  (skip), image-only PDF with no extractable text (stop and say so), non-English input (flag for
-  confirmation), IDs already present in the source (ignore them - we do not use synthetic IDs).
+- **Edge cases - flag, do not guess:** merged cells, one row holding several items (flag; if it is one
+  oversized requirement rather than separate items, carry it as a single item and propose the split in
+  Step 4 item 8 - never guess it apart here), blank rows (skip), image-only PDF with no extractable text
+  (stop and say so), non-English input (flag for confirmation), IDs already present in the source
+  (ignore them - we do not use synthetic IDs).
 
 ### Step 4 - Analysis pass: write `review.md` (NO story files yet)
 Produce `review.md` in the resolved output folder (see **Output layout**) using
@@ -137,7 +139,23 @@ Produce `review.md` in the resolved output folder (see **Output layout**) using
 6. **Cross-story consistency** - flag any two items that contradict each other.
 7. **Duplicates / overlaps** - apply the merge test (can two stories be merged without losing
    meaning? if yes, merge); propose merges.
-8. **Risk notes** - items that look oversized, vague, or like a task/spike rather than a story.
+8. **Risk notes + decomposition proposals** - flag items that look oversized, vague, or like a
+   task/spike rather than a story. When an item is **oversized** - its source describes several
+   distinct user-facing behaviours, spans multiple workflow steps, or would need more acceptance
+   criteria than one story can coherently carry - do not stop at the flag: **propose** how to slice it
+   into smaller, independently shippable stories. This is advisory: you propose, the PO disposes.
+   - Name the slicing lens you used (by workflow step, by operation create/read/update/delete, by
+     happy-path-then-edge-cases, by user role, or by data variation) and list the candidate slices as
+     proposed titles + slugs, each a thin vertical slice that could ship on its own.
+   - **Re-partition only behaviour the source already states. Never propose a slice for scope the
+     source is silent on** - flag the gap instead; inventing a slice is fabrication, same rule as the
+     rest of this skill.
+   - List the proposed slices in section 1 as the items, so the coverage, dependency, and consistency
+     checks (sections 2-7) validate the intended set - but state plainly that the split is advisory:
+     name the single-story fallback ("I will generate one story unless you accept the split") and
+     recommend, do not impose. Generate no files until the PO accepts at Step 5; if they accept, the
+     split is confirmed there and the full analysis re-runs on the agreed set (per the Approval
+     protocol). A proposed slice is a suggestion, not a `[RED]` gate - it never blocks approval on its own.
 9. **Requirement quality (testability + non-functional)** - for each item, check the source is concrete
    enough to yield a testable, measurable acceptance criterion. Flag any requirement too vague to
    become a checkable AC (it would otherwise force a vague AC or a `[BRACKETS]` placeholder at
