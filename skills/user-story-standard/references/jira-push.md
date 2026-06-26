@@ -75,14 +75,14 @@ after the bullet, which renders as cluttered `- [ ] text` in the issue view. Pla
 cleanly. (The `.md` files keep `- [ ]` - that is correct in a Markdown viewer; only the pushed Jira
 Description drops the checkbox.)
 
-`TBD` and `[BRACKETS]` carry over as-is so the dev team sees what is still open. On the first real push,
+Bare `TBD` markers and `[TBD - ...]` placeholders carry over as-is so the dev team sees what is still open. On the first real push,
 eyeball the rendered Description to confirm the bullets are clean (no literal `[ ]`) and that **bold**
 and `code` formatting survived the ADF conversion; adjust and re-confirm if not.
 
 For a **Bug**, the first rendered section is `## Bug Details` (Current Behaviour + Expected Behaviour)
 in place of `## User Story`; everything else maps identically.
 
-**`TBD` / `[BRACKETS]` carry through only in the Description free text.** A `TBD` or placeholder
+**Bare `TBD` / `[TBD - ...]` placeholders carry through only in the Description free text.** A `TBD` or placeholder
 destined for a **native typed field** - `story_points` (numeric), `milestone` (Version/Sprint), or any
 enum - must be **omitted from the create call** and listed as a field gap in the dry-run. Writing the
 literal string `TBD` into a numeric or version field is rejected by the API. (`story_points` and

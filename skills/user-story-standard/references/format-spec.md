@@ -136,7 +136,7 @@ otherwise identical. Spike / Task / Deployment keep the `## User Story` heading.
   prove them (specific inputs, boundaries, endpoints, error strings, regression/edge cases). Keep them
   at different altitudes; do not restate an Expected Behaviour bullet verbatim as an AC, and never let
   the two contradict.
-- If either field cannot be determined from the input, write `[BRACKETS]` and flag it - never invent.
+- If either field cannot be determined from the input, write `[TBD - <what is missing>]` and flag it - never invent.
 - State the substitution (`## User Story` -> `## Bug Details`) in `review.md`.
 
 **Spike / Task / Deployment** - keep the `## User Story` heading but replace the three-line block with
@@ -171,7 +171,7 @@ Declarative present tense - state what IS true after implementation.
 
 ### Make every criterion concrete and testable
 A criterion that cannot be checked is not a criterion. Turn abstract statements into specific,
-verifiable ones. If the input does not give the concrete figure, write `[BRACKETS]` and flag it -
+verifiable ones. If the input does not give the concrete figure, write `[TBD - <what is missing>]` and flag it -
 do not leave it vague, and do not invent a number.
 
 | Vague (reject) | Concrete (write this) |
@@ -331,7 +331,7 @@ With analysis-first, NEEDS INPUT should normally be empty (resolved at step 5); 
 means generation ran before approval - stop and fix.
 
 **Severity guide:** NEEDS INPUT = incomplete, PO must provide info. NEEDS REVIEW = inferred content,
-PO should verify. TECHNICAL PLACEHOLDERS = format fine, dev fills `[BRACKETS]`. SKIPPED = not
+PO should verify. TECHNICAL PLACEHOLDERS = format fine, dev fills `[TBD - ...]`. SKIPPED = not
 converted (heading row, duplicate, pure task, etc.).
 
 ---

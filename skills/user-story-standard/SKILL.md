@@ -27,7 +27,7 @@ style, and naming, regardless of project, stack, or operator.
 | **Content** | The user-story sentence (or a Bug's current/expected behaviour), acceptance criteria, DoD specifics | Infer from input, adapt to context, flag gaps - never fabricate |
 
 This is not a stamp. A story with 2 honest acceptance criteria beats one padded to 5. An acceptance
-criterion that says `[BRACKETS]` where a concrete figure is unknown beats an invented number. When in
+criterion that says `[TBD - ...]` where a concrete figure is unknown beats an invented number. When in
 doubt: **write what you know, flag what you don't, ask when you're blocked.**
 
 ## Before you start - read the standard
@@ -158,7 +158,7 @@ Produce `review.md` in the resolved output folder (see **Output layout**) using
      protocol). A proposed slice is a suggestion, not a `[RED]` gate - it never blocks approval on its own.
 9. **Requirement quality (testability + non-functional)** - for each item, check the source is concrete
    enough to yield a testable, measurable acceptance criterion. Flag any requirement too vague to
-   become a checkable AC (it would otherwise force a vague AC or a `[BRACKETS]` placeholder at
+   become a checkable AC (it would otherwise force a vague AC or a `[TBD - ...]` placeholder at
    generation). Also surface any non-functional dimension the source *implies but does not state* -
    performance, security, accessibility - and flag it for the PO to confirm or drop. **Never invent an
    NFR or a concrete measure the source did not provide** - flag it, do not fill it.

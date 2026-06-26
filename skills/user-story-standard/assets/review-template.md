@@ -112,7 +112,7 @@ offered) until the PO accepts it.
 Each requirement must be concrete enough to become a testable, measurable acceptance criterion, and
 any implied non-functional need must be surfaced - not invented.
 
-**Untestable / unmeasurable source** (would force a vague AC or a `[BRACKETS]` placeholder at
+**Untestable / unmeasurable source** (would force a vague AC or a `[TBD - ...]` placeholder at
 generation - needs a concrete figure or condition from the PO):
 - #[n] [Title]: [what is too vague - e.g. "fast", "secure", "user-friendly" with no measurable bar]
 
