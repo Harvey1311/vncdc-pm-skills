@@ -47,7 +47,8 @@ no story.
 ## 4. Ambiguity flags (must resolve before generation)
 
 [RED] NEEDS INPUT
-- #[n] [Title]: [persona / goal / benefit / issue_type / enum value that cannot be determined]
+- #[n] [Title]: [Story: persona / goal / benefit | Bug: current behaviour / expected behaviour |
+  Spike/Task/Deployment: problem/goal statement | any: issue_type / enum value that cannot be determined]
 
 (If none: "No blocking ambiguities.")
 
@@ -79,10 +80,10 @@ Relationships declared across the batch (by slug):
 
 Apply the merge test to every pair that looks related: **can these two stories be merged without
 losing meaning?** If yes, they are not distinct - merge them. Each story must capture one distinct
-behavior.
+behaviour.
 
 - #[n] and #[m]: [describe the overlap] -> propose: [merge into one | keep separate because they
-  capture genuinely distinct behaviors: ...].
+  capture genuinely distinct behaviours: ...].
 
 (If none: "All items are mutually exclusive; no merges proposed.")
 
@@ -104,6 +105,10 @@ any implied non-functional need must be surfaced - not invented.
 **Untestable / unmeasurable source** (would force a vague AC or a `[BRACKETS]` placeholder at
 generation - needs a concrete figure or condition from the PO):
 - #[n] [Title]: [what is too vague - e.g. "fast", "secure", "user-friendly" with no measurable bar]
+
+**Bugs with an unverifiable expected result** (Expected Behaviour too vague to verify a fix against -
+needs the concrete observable result from the PO; never invent it):
+- #[n] [Title]: [e.g. expected result is "works correctly" with no stated end state]
 
 **Implied non-functional requirements** (performance / security / accessibility the source implies but
 does not state - PO to confirm or drop; never invented):

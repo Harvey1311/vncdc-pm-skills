@@ -24,7 +24,7 @@ style, and naming, regardless of project, stack, or operator.
 | Layer | What it covers | Your role |
 |-------|----------------|-----------|
 | **Format** | Section order, heading names, frontmatter fields, checkbox syntax, hyphen usage (ASCII-only), slug naming, the Jira naming convention | Follow exactly - no exceptions |
-| **Content** | The user-story sentence, acceptance criteria, DoD specifics | Infer from input, adapt to context, flag gaps - never fabricate |
+| **Content** | The user-story sentence (or a Bug's current/expected behaviour), acceptance criteria, DoD specifics | Infer from input, adapt to context, flag gaps - never fabricate |
 
 This is not a stamp. A story with 2 honest acceptance criteria beats one padded to 5. An acceptance
 criterion that says `[BRACKETS]` where a concrete figure is unknown beats an invented number. When in
@@ -128,7 +128,10 @@ Produce `review.md` in the resolved output folder (see **Output layout**) using
    plus a list of source items deliberately skipped (with reason). Proves nothing was invented.
 3. **Coverage check** - confirm every source requirement maps to at least one story; flag any
    unmapped source item as a potential omission.
-4. **Ambiguity flags** - anything where persona, goal, benefit, or `issue_type` cannot be determined.
+4. **Ambiguity flags** - anything where the fields a given `issue_type` needs cannot be determined:
+   for a Story, persona / goal / benefit; for a **Bug**, current behaviour or expected behaviour; for
+   a Spike / Task / Deployment, the one-line problem/goal statement; and for any type, the `issue_type`
+   itself. Flag, do not guess.
 5. **Dependency graph + validation** - list every `Blocked by` / `Enables` relationship by slug, and
    flag any reference that does **not** resolve to another item in this batch (dangling link).
 6. **Cross-story consistency** - flag any two items that contradict each other.
@@ -141,6 +144,10 @@ Produce `review.md` in the resolved output folder (see **Output layout**) using
    generation). Also surface any non-functional dimension the source *implies but does not state* -
    performance, security, accessibility - and flag it for the PO to confirm or drop. **Never invent an
    NFR or a concrete measure the source did not provide** - flag it, do not fill it.
+   For a **Bug**, apply the same testability bar to each **Expected Behaviour** bullet: each must state
+   a concrete, observable result the fix can be verified against (e.g. *expired OTP is rejected with*
+   **"Code expired"**), not a vague *works correctly* / *behaves as expected*. Flag a Bug whose expected
+   outcomes are too vague to verify, and **never invent an expected result** the source did not give.
 
 Enum fields (`priority`, `category`, `issue_type`) that cannot be determined are flagged HERE and
 resolved with the PO - they must hold a real value before generation, never `TBD`.
@@ -149,7 +156,7 @@ resolved with the PO - they must hold a real value before generation, never `TBD
 Show the `review.md` summary, then **STOP and end your turn** per the Approval protocol above - do not
 continue to Step 6 in the same message, and do not treat a clean (zero-flag) review as approval.
 
-Resolve every 🔴 NEEDS INPUT item with the PO. Batch independent questions in one shot; ask
+Resolve every [RED] NEEDS INPUT item with the PO. Batch independent questions in one shot; ask
 sequentially only when one answer changes the next (e.g. confirm `issue_type` before asking for a
 persona).
 
@@ -181,9 +188,9 @@ announced before generation).
 Re-read each file. Silently fix **format only** (field order, dividers, checkbox state) - **never**
 silently fill content. Then emit the **Flags Summary** (format in
 `references/format-spec.md`). Because content gaps were resolved at step 5, this is normally just
-🔵 technical placeholders for the dev team and ⬜ skipped rows.
+[BLUE] technical placeholders for the dev team and [SKIPPED] rows.
 
-**Tripwire:** if any 🔴 NEEDS INPUT survives to this point, generation ran before the analysis was
+**Tripwire:** if any [RED] NEEDS INPUT survives to this point, generation ran before the analysis was
 approved. STOP - do not emit a completion summary - and return to Step 5 for approval.
 
 ### Step 9 - Optional Jira push

@@ -54,7 +54,7 @@ For each story `.md`, map fields to Jira:
 | `.md` source | Jira field |
 |--------------|------------|
 | `title` | Summary (plain title convention - no prefix) |
-| User Story + Acceptance Criteria + Definition of Done | Description |
+| First section (User Story, or Bug Details for a Bug) + Acceptance Criteria + Definition of Done | Description |
 | `issue_type` | Issue Type |
 | `priority` | Priority |
 | `story_points` | Story Points (discovered custom field) |
@@ -64,11 +64,23 @@ For each story `.md`, map fields to Jira:
 | `Dependencies` (`Blocked by` / `Enables`) | Real issue links (Step F) - NOT description text |
 
 Render the Description from the `.md` **body only** - strip the YAML frontmatter (those fields map to
-native Jira fields above, not into the Description). Keep the section structure (User Story, Acceptance
-Criteria as a checklist, Definition of Done). `TBD` and `[BRACKETS]` carry over as-is
-so the dev team sees what is still open. On the first real push, **verify** that the `- [ ]`
-acceptance-criteria lines render as a real Jira task list (not literal text) after the MCP's
-markdown-to-ADF conversion; if they do not, adjust the render and re-confirm.
+native Jira fields above, not into the Description). Keep the section structure (User Story or Bug
+Details, Acceptance Criteria, Definition of Done).
+
+**Render the Acceptance Criteria and Definition of Done as plain bullet points - strip the Markdown
+checkbox. This applies to every issue type (Story, Bug, Spike, Task, Deployment).** Convert each
+`- [ ] <text>` line to `- <text>`. Jira's markdown-to-ADF conversion does
+**not** turn an unchecked Markdown checkbox into a native Jira task item; it leaves a literal `[ ]`
+after the bullet, which renders as cluttered `- [ ] text` in the issue view. Plain bullets render
+cleanly. (The `.md` files keep `- [ ]` - that is correct in a Markdown viewer; only the pushed Jira
+Description drops the checkbox.)
+
+`TBD` and `[BRACKETS]` carry over as-is so the dev team sees what is still open. On the first real push,
+eyeball the rendered Description to confirm the bullets are clean (no literal `[ ]`) and that **bold**
+and `code` formatting survived the ADF conversion; adjust and re-confirm if not.
+
+For a **Bug**, the first rendered section is `## Bug Details` (Current Behaviour + Expected Behaviour)
+in place of `## User Story`; everything else maps identically.
 
 **`TBD` / `[BRACKETS]` carry through only in the Description free text.** A `TBD` or placeholder
 destined for a **native typed field** - `story_points` (numeric), `milestone` (Version/Sprint), or any

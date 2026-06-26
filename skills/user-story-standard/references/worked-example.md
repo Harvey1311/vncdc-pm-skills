@@ -69,3 +69,73 @@ jira_key:
 - The DoD = universal core + VNCDC Web profile items + one story-specific test item.
 - `Blocked by` references another story by **slug** (`user-authentication`), which must exist in the
   same batch or be flagged as dangling.
+
+---
+
+## Bug example
+
+A Bug uses `## Bug Details` (Current + Expected Behaviour) in place of `## User Story`; everything else
+is identical. Note how Expected Behaviour states a concrete, observable result the fix is verified
+against - not "works correctly".
+
+**File name:** `expired-otp-accepted-at-login.md`
+**Saved to:** `<output-dir>/epic-authentication/expired-otp-accepted-at-login.md`
+**Profile:** VNCDC Web (default)
+
+```markdown
+---
+title: Expired OTP Accepted At Login
+epic: Authentication
+issue_type: Bug
+priority: High
+category: Partial Functional Adjustment
+story_points: 2
+milestone: M2 - Authentication Hardening
+jira_key:
+---
+
+## Bug Details
+**Current Behaviour:** A one-time passcode is still accepted at login after its `5 min` validity window has passed.
+
+**Expected Behaviour:**
+- An OTP submitted after its validity window is rejected and login is denied
+- The user is prompted to request a new code
+
+---
+
+## Acceptance Criteria
+
+### AC1 - Expiry Enforced
+- [ ] An OTP submitted after `5 min` from issue is rejected by `POST /api/auth/otp/verify`
+- [ ] A still-valid OTP (within `5 min`) continues to verify successfully
+
+### AC2 - User Feedback
+- [ ] On an expired OTP, the login form shows **"Code expired. Request a new one."**
+- [ ] The expired code is invalidated server-side and cannot be retried
+
+---
+
+## Definition of Done
+- [ ] All acceptance criteria implemented and verified
+- [ ] Regression test: expired OTP -> rejected; valid OTP -> accepted
+- [ ] TypeScript compiles without errors (`tsc --noEmit`)
+- [ ] English & Traditional Chinese (zh) translations added:
+  `auth.otpExpired`
+- [ ] No runtime or console errors
+- [ ] Code reviewed and merged to `develop` via MR from `fix/otp-expiry`
+
+---
+
+## Dependencies
+- **Blocked by:** none
+- **Enables:** none
+```
+
+### What to notice (Bug)
+- `## Bug Details` replaces `## User Story`; the other three sections and all format rules are unchanged.
+- Expected Behaviour lists the target outcomes as plain bullets (no checkboxes); the checkable
+  specifics - the exact error string **"Code expired. Request a new one."**, the
+  `POST /api/auth/otp/verify` endpoint, the still-valid path, server-side invalidation - live in the
+  ACs. Outcomes are not restated verbatim in both: Expected Behaviour is what "fixed" looks like, the
+  ACs are how it is proven.
+- `category` for a defect fix is normally `Partial Functional Adjustment`, not `Total New`.

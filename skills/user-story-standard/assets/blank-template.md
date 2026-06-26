@@ -39,3 +39,15 @@ jira_key:
 ## Dependencies
 - **Blocked by:** [slug or none]
 - **Enables:** [slug or none]
+
+<!--
+Bug variant: when issue_type is Bug, replace the "## User Story" section above with:
+
+## Bug Details
+**Current Behaviour:** [what happens today - the defect, one line]
+
+**Expected Behaviour:**
+- [each expected outcome as a plain bullet]
+
+Spike / Task / Deployment: keep "## User Story" but use a one-line problem/goal statement.
+-->

@@ -7,6 +7,10 @@ non-negotiable; content is your judgment (see SKILL.md).
 (U+2013) or the em-dash (U+2014) - they are hard to type, easy to confuse, and add no value (Jira
 renders them identically). Plain hyphens keep output identical across every operator and machine.
 
+**Spelling rule:** the Bug section uses British spelling - `Behaviour` (the field labels **Current
+Behaviour** / **Expected Behaviour**), never the American `Behavior`. This is the final, canonical
+spelling; keep it identical everywhere the word appears in this skill and in generated output.
+
 ---
 
 ## 1. Frontmatter
@@ -44,6 +48,13 @@ jira_key:
 from the input, flag it in `review.md` and resolve it with the PO **before** generating - never write
 an enum as `TBD`. Only `story_points` and `milestone` may be `TBD`.
 
+### Category for a Bug
+The `category` enum is feature-shaped, so a defect needs a default: a Bug is normally
+`Partial Functional Adjustment` (it corrects existing behaviour). Use `UI Only` when the fix is purely
+presentational, and `Total New` only when the defect sits in not-yet-released code. Apply this default
+silently - do not flag every Bug's `category` as NEEDS INPUT; flag only when the fix genuinely could be
+more than one of these.
+
 ### Multi-phase milestone
 When a story spans milestones (e.g. a silent backend deploy plus a later UI milestone):
 ```
@@ -78,6 +89,10 @@ Every story contains exactly these sections in this order:
 Definition of Done (immediately before Dependencies). **NOT** between the closing `---` of the YAML
 block and `## User Story` - the YAML delimiter is not a section divider.
 
+**Bug variant:** when `issue_type` is `Bug`, the first section is `## Bug Details` instead of
+`## User Story` (see Section 3). Section order, HR placement, and the remaining three sections are
+otherwise identical. Spike / Task / Deployment keep the `## User Story` heading.
+
 ---
 
 ## 3. User Story
@@ -96,8 +111,36 @@ block and `## User Story` - the YAML delimiter is not a section divider.
 - Do NOT write `**I want to** the system to...` - the subject after "I want to" must be an infinitive
   verb, not a noun phrase.
 
-For non-Story issue types (Bug / Spike / Task / Deployment), the User Story block may be replaced with
-a one-line problem/goal statement; keep the section heading. State this substitution in `review.md`.
+### Non-Story issue types
+
+**Bug** - replace the `## User Story` section with a `## Bug Details` section holding two fields:
+
+```
+## Bug Details
+**Current Behaviour:** [what happens today - the defect, one line]
+
+**Expected Behaviour:**
+- [each expected outcome as a plain bullet]
+- [...]
+```
+
+- Bold field labels. **Current Behaviour** is a one-line prose statement of the defect (a short
+  bulleted list is fine if there are several distinct symptoms). **Expected Behaviour** is a **plain
+  bulleted list** - one expected outcome per bullet, never a checkbox (`- [ ]`), consistent with the
+  no-checkbox rule for all Jira output.
+- Each Expected Behaviour bullet must be concrete and observable - a result the fix can be verified
+  against, not `works correctly` or `behaves as expected`. Use **bold** for UI-literal text and
+  `backticks` for routes/fields/identifiers, same as AC bullets.
+- **Expected Behaviour vs Acceptance Criteria - no duplication.** Expected Behaviour lists the target
+  outcomes (what "fixed" looks like); the Acceptance Criteria are the verifiable test conditions that
+  prove them (specific inputs, boundaries, endpoints, error strings, regression/edge cases). Keep them
+  at different altitudes; do not restate an Expected Behaviour bullet verbatim as an AC, and never let
+  the two contradict.
+- If either field cannot be determined from the input, write `[BRACKETS]` and flag it - never invent.
+- State the substitution (`## User Story` -> `## Bug Details`) in `review.md`.
+
+**Spike / Task / Deployment** - keep the `## User Story` heading but replace the three-line block with
+a one-line problem/goal statement. State this substitution in `review.md`.
 
 ---
 
@@ -115,7 +158,9 @@ a one-line problem/goal statement; keep the section heading. State this substitu
 ```
 - [ ] Criterion text here
 ```
-Always unchecked. Never pre-check a box.
+Always unchecked. Never pre-check a box. (In the `.md` these stay as Markdown checkboxes; on a Jira
+push the Acceptance Criteria and Definition of Done render as plain bullets - the `[ ]` is stripped, see
+`jira-push.md`.)
 
 ### Writing style
 Declarative present tense - state what IS true after implementation.
@@ -304,4 +349,6 @@ converted (heading row, duplicate, pure task, etc.).
 | Enum unknown | flag in review.md, resolve before generation - never `TBD` |
 | story_points / milestone unknown | `TBD` allowed |
 | Empty dependency | `none` (lowercase) |
-| Section dividers | `---` after User Story, AC, DoD - not before User Story |
+| Bug first section | `## Bug Details`: **Current Behaviour** (prose) + **Expected Behaviour** (plain bullets); replaces `## User Story` |
+| Jira output bullets | Acceptance Criteria + Definition of Done render as plain bullets, no `- [ ]` checkbox, all issue types (stripped on push) |
+| Section dividers | `---` after the first section (User Story / Bug Details), AC, DoD - not before it |
