@@ -142,6 +142,11 @@ otherwise identical. Spike / Task / Deployment keep the `## User Story` heading.
 **Spike / Task / Deployment** - keep the `## User Story` heading but replace the three-line block with
 a one-line problem/goal statement. State this substitution in `review.md`.
 
+**E2E validation ticket** - an `issue_type: Story` sibling under an Epic whose `## User Story` uses a
+business-owner persona and whose Acceptance Criteria are Given-When-Then scenarios (see Section 4's scoped
+exception). It is a documented *shape* of Story, not a new issue type. Its full pattern lives in
+`references/e2e-validation-ticket.md`; read that before generating one.
+
 ---
 
 ## 4. Acceptance Criteria
@@ -193,6 +198,14 @@ do not leave it vague, and do not invent a number.
   - [ ] System calls `GET /api/reports/latest`
   ```
 - Numbered sub-lists are allowed inside an AC bullet for an ordered sequence.
+
+### Scoped exception - E2E validation tickets use Given-When-Then
+The declarative present-tense form above is the rule for every normal story. The **E2E validation ticket**
+(see `references/e2e-validation-ticket.md`) is the one deliberate exception: its Acceptance Criteria are
+written as **Given-When-Then scenarios** numbered `E2E#`, because an end-to-end journey is a
+precondition -> action -> outcome sequence and reads clearly only in that shape. This exception is scoped to
+the E2E ticket alone - it is not a contradiction of the declarative rule, and it does not license
+Given-When-Then in ordinary stories.
 
 ---
 

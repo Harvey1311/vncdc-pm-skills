@@ -42,7 +42,10 @@ relevant ones in full before generating anything:
 - `references/stack-profiles.md` - read only when the project's stack is not the default VNCDC web
   stack, or when the PM asks about the DoD shape.
 - `references/jira-push.md` - read only when the PM asks to push to Jira (workflow step 9).
+- `references/e2e-validation-ticket.md` - read only when a batch forms a coherent multi-story journey
+  under one Epic (proposed in Step 4), or when the PM asks for an end-to-end validation ticket.
 - `assets/blank-template.md` - the empty story to copy.
+- `assets/e2e-ticket-template.md` - the empty E2E validation ticket to copy.
 - `assets/review-template.md` - the shape of the pre-generation `review.md`.
 
 ## Identity model - no synthetic numbers
@@ -166,6 +169,15 @@ Produce `review.md` in the resolved output folder (see **Output layout**) using
    a concrete, observable result the fix can be verified against (e.g. *expired OTP is rejected with*
    **"Code expired"**), not a vague *works correctly* / *behaves as expected*. Flag a Bug whose expected
    outcomes are too vague to verify, and **never invent an expected result** the source did not give.
+10. **E2E validation ticket proposal (advisory)** - if the batch forms a coherent multi-story journey
+    under **one Epic** (the stories set -> apply -> observe some capability, or several stories must be
+    wired together for the feature to work), **propose** an optional end-to-end validation ticket that
+    tests the journey and the seams between those stories. This is advisory - you propose, the PO
+    disposes; it never blocks approval. Read `references/e2e-validation-ticket.md` before proposing or
+    generating one. Also honour a direct PO request for an E2E ticket at any time. Do **not** propose one
+    for a batch of unrelated stories or a single story. If proposed and the PO accepts, generate it in
+    Step 6 as a Story sibling under the Epic (`assets/e2e-ticket-template.md`), blocked by the stories it
+    validates - and re-run the dependency check so its `Blocked by` list resolves.
 
 Enum fields (`priority`, `category`, `issue_type`) that cannot be determined are flagged HERE and
 resolved with the PO - they must hold a real value before generation, never `TBD`.

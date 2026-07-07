@@ -128,6 +128,21 @@ does not state - PO to confirm or drop; never invented):
 
 ---
 
+## 10. E2E validation ticket (advisory)
+
+If the batch forms a coherent multi-story journey under one Epic, propose an optional end-to-end
+validation ticket that tests the journey and the seams between the stories (never their unit ACs). Advisory
+- the PO accepts or declines; it does not block approval.
+
+- **Proposed:** [yes / no]
+- **Journey it covers:** [the set -> apply -> observe flow, in one line]
+- **Stories it would stitch (Blocked by):** [slug, slug, ...]
+- **Proposed title / slug:** Validate [Feature] End-to-End (`validate-[feature]-end-to-end`)
+
+(If not applicable: "Batch is a single story or unrelated items; no E2E validation ticket proposed.")
+
+---
+
 ## Decision needed
 
 Reply with approval, or tell me which items to combine, split, rename, re-type, or reassign to a
