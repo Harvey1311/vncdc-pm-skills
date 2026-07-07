@@ -164,12 +164,14 @@ duplicate - drop it. Every scenario must cross a seam.
 
 ---
 
-## 5. Worked example - SEA-19 Site-wide Number Format
+## 5. Worked example - Site-Wide Number Format
 
 Feature: admins choose a per-tenant number format (comma-style `1,234,567.89` or dot-style `1.234.567,89`)
-applied site-wide. Built by five sibling stories: SEA-20 maintain setting, SEA-21 apply site-wide, SEA-22
-view read-only, SEA-23 enforce tenant isolation, SEA-24 default for unset tenants. The concrete run command,
-paths, tools, and accounts below are this project's - a different project fills in its own.
+applied site-wide. Built by five sibling stories, referenced here by **slug** (their identity before push -
+Jira keys do not exist yet): `maintain-tenant-number-format-setting`, `apply-tenant-number-format-site-wide`,
+`view-number-format-setting-read-only`, `enforce-tenant-isolation-for-number-format-setting`,
+`default-number-format-for-unset-tenants`. The run command, paths, tools, roles, and tenant labels below are
+illustrative - a different project fills in its own.
 
 ```markdown
 ---
@@ -192,31 +194,31 @@ jira_key:
 
 ## Acceptance Criteria
 
-*Scope: this ticket verifies cross-story journeys and seams. Per-story behaviour is verified in
-SEA-20..24 and is deliberately not re-listed here.*
+*Scope: this ticket verifies cross-story journeys and seams. Per-story behaviour is verified in the five
+sibling stories listed under Dependencies and is deliberately not re-listed here.*
 
-### E2E1 - Admin Sets Format, Users See It Everywhere  (stitches SEA-20 -> SEA-21)
-- **Given** tenant VN is on comma-style and I am signed in as Market Admin (`pei5566`)
-- **When** I set Number Format to dot-style in System Settings > Advanced and save
+### E2E1 - Admin Sets Format, Users See It Everywhere  (stitches maintain-tenant-number-format-setting -> apply-tenant-number-format-site-wide)
+- **Given** Tenant A is on comma-style and I am signed in as an Admin
+- **When** I set Number Format to dot-style in Settings and save
 - **Then** dashboard KPIs, report figures, list counts, and percentages all render **`1.234.567,89`**
 - **And** no screen still shows the previous comma-style format - the saved value drives every display
 
-### E2E2 - Role Continuity  (stitches SEA-20 -> SEA-22)
-- **Given** the admin has saved dot-style for tenant VN
-- **When** a C role (`c1_test`) opens System Settings > Advanced
+### E2E2 - Role Continuity  (stitches maintain-tenant-number-format-setting -> view-number-format-setting-read-only)
+- **Given** the Admin has saved dot-style for Tenant A
+- **When** a read-only Viewer opens Settings
 - **Then** the setting shows dot-style, read-only, with no **Save** control
-- **And** a direct API write by that role is rejected - what A set is exactly what C sees and cannot change
+- **And** a direct API write by that Viewer is rejected - what the Admin set is exactly what the Viewer sees and cannot change
 
-### E2E3 - Isolation Across The Journey  (stitches SEA-21 + SEA-23)
-- **Given** tenant VN is on dot-style and tenant KH is on comma-style
-- **When** the admin switches to tenant KH
-- **Then** KH renders comma-style and VN's earlier change left KH's display and stored value untouched
+### E2E3 - Isolation Across The Journey  (stitches apply-tenant-number-format-site-wide + enforce-tenant-isolation-for-number-format-setting)
+- **Given** Tenant A is on dot-style and Tenant B is on comma-style
+- **When** the Admin switches to Tenant B
+- **Then** Tenant B renders comma-style and Tenant A's earlier change left Tenant B's display and stored value untouched
 - **And** a cross-tenant request (URL, payload, or ID) returns nothing from the other tenant
 
-### E2E4 - Default Flows End-to-End With No Config  (stitches SEA-24 -> SEA-21)
+### E2E4 - Default Flows End-to-End With No Config  (stitches default-number-format-for-unset-tenants -> apply-tenant-number-format-site-wide)
 - **Given** a tenant that has never set a number format, on a freshly migrated database
 - **When** any user views numbers anywhere in the product
-- **Then** the migration-backfilled default value is applied by the same site-wide rendering path SEA-21 uses for a chosen format
+- **Then** the migration-backfilled default value is applied by the same site-wide rendering path the apply-site-wide story uses for a chosen format
 - **And** no per-tenant setting row was ever created - the default reaches the screen end-to-end with zero configuration
 
 ---
@@ -225,7 +227,7 @@ SEA-20..24 and is deliberately not re-listed here.*
 - [ ] All E2E scenarios pass on the local stack (`docker compose up --build`)
 - [ ] Business-owned prose scenarios recorded in `e2e/specs/` (the scenarios above are the source)
 - [ ] Executable suite implemented in `e2e/tests/` (Playwright), one test per scenario
-- [ ] Test data seeded: tenants VN + KH, accounts `pei5566` (role A) and `c1_test` (role C)
+- [ ] Test data seeded: Tenant A + Tenant B, an Admin account and a read-only Viewer account
 - [ ] No runtime or console errors during runs
 - [ ] Reviewed and merged to `[target-branch]` via MR from `[source-branch]`
 
@@ -238,12 +240,13 @@ SEA-20..24 and is deliberately not re-listed here.*
 - **Enables:** none
 ```
 
-Notice what the four scenarios do **not** contain: they never restate SEA-21's "comma-style renders
-`1,234,567.89`", SEA-22's hidden-Save AC, or SEA-24's default-and-backfill AC. E2E4 in particular does not
-re-assert SEA-24's "looks like en-US" outcome; it asserts the *seam* - that the backfilled default reaches
-the screen through SEA-21's rendering path with no setting row. Each scenario asserts only a hand-off (saved
-value drives display; A's choice is what C sees; one tenant's change spares another; the default flows with
-zero config). That is coherence without duplication.
+Notice what the four scenarios do **not** contain: they never restate the apply-site-wide story's
+"comma-style renders `1,234,567.89`", the read-only story's hidden-Save AC, or the default story's
+default-and-backfill AC. E2E4 in particular does not re-assert the default story's "renders the default"
+outcome; it asserts the *seam* - that the backfilled default reaches the screen through the apply-site-wide
+story's rendering path with no setting row. Each scenario asserts only a hand-off (saved value drives
+display; the Admin's choice is what the Viewer sees; one tenant's change spares another; the default flows
+with zero config). That is coherence without duplication.
 
 ---
 
