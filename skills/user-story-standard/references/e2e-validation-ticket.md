@@ -6,7 +6,7 @@ demand - only when a batch forms a coherent multi-story journey under one Epic, 
 E2E ticket.
 
 **Dash rule:** ASCII-only, same as the rest of the standard. Plain hyphen `-` everywhere; no en-dash
-(U+2013), no em-dash (U+2014).
+(U+2013), no em-dash (U+2014). This includes operators like `>=` (never the glyph).
 
 ---
 
@@ -18,7 +18,7 @@ hand-offs that no single story can test on its own.
 
 | It IS | It is NOT |
 |-------|-----------|
-| A journey-altitude check across ≥2 sibling stories | A re-list of the sibling stories' unit acceptance criteria |
+| A journey-altitude check across >=2 sibling stories | A re-list of the sibling stories' unit acceptance criteria |
 | Proof the feature is coherent end-to-end (business + technical) | A place to add new feature scope |
 | The last ticket built (blocked by all the stories it validates) | A substitute for each story's own ACs, unit tests, or DoD |
 
@@ -61,11 +61,12 @@ Section order, HR placement, and the four headings are unchanged (`format-spec.m
 
 ### 3.1 User Story - business-owner reframe
 
-Nobody "wants an E2E test" as a user goal, so the persona is the **business owner** of the feature:
+Nobody "wants an E2E test" as a user goal, so the persona is the **business owner** of the feature (kept in
+the standard's `As a` / `As an` form, section 3 of `format-spec.md`):
 
 ```
 ## User Story
-**As the** business owner of [feature],
+**As a** business owner of [feature],
 **I want** the complete [user] journey validated end-to-end across [the roles / tenants / states it spans],
 **So that** we have one executable guarantee the feature works as a whole before release.
 ```
@@ -80,50 +81,55 @@ precondition -> action -> outcome sequence and reads clearly only in that shape.
 the E2E ticket **only**; sibling stories keep the declarative format. `format-spec.md` section 4 records the
 exception so the two conventions are not read as a contradiction.
 
-Open the section with a one-line **scope banner** (this is the anti-duplication guard, on the ticket itself):
+Open the section with a one-line italic **scope banner** (this is the anti-duplication guard, on the ticket
+itself):
 
 ```
 ## Acceptance Criteria
 
-> Scope: this ticket verifies cross-story journeys and seams. Per-story behaviour is verified in
-> [SEA-20..24 / the sibling slugs] and is deliberately not re-listed here.
+*Scope: this ticket verifies cross-story journeys and seams. Per-story behaviour is verified in
+[the sibling slugs / Jira keys] and is deliberately not re-listed here.*
 ```
 
-Then each scenario:
+Then each scenario, as a heading plus **plain bullets** - one bullet per Given / When / Then / And:
 
 ```
 ### E2E1 - [Journey Title]  (stitches [slug-a] -> [slug-b])
-- [ ] **Given** [starting state - tenant, role, stored value]
-      **When** [the action, or chain of actions across the stories]
-      **Then** [the observable business outcome]
-      **And** [the seam assertion - the thing only the wired-together stories prove]
+- **Given** [starting state - tenant, role, stored value]
+- **When** [the action, or chain of actions across the stories]
+- **Then** [the observable business outcome]
+- **And** [the seam assertion - the thing only the wired-together stories prove]
 ```
 
 Rules for scenarios:
 - Number them `E2E1, E2E2, ...` (not `AC1`) so the altitude is unmistakable at a glance.
 - Name the sibling stories each scenario stitches, in the heading, by slug or Jira key.
-- One checkbox per scenario, keeping the `- [ ]` convention (stripped to a bullet on Jira push, same as ACs).
+- **Plain bullets, no checkbox.** Normal-story ACs keep `- [ ]`; the E2E ticket drops it so a multi-line
+  Given/When/Then/And scenario renders cleanly as bullets on a Jira push. Each of Given / When / Then / And
+  is its own bullet - never one checkbox wrapping several lines.
 - **Business outcome in prose; technical seam in `backticks`** (endpoints, stored fields, roles) - carrying
-  Minh's business-wise + technical-wise split inside one scenario without a new field.
+  the business-wise + technical-wise split inside one scenario without a new field.
 - Concrete and observable, same testability bar as ACs: bold for UI-literal text
   (**"Number Format"**), backticks for routes/fields. No "works correctly".
 
 ### 3.3 Definition of Done - the two execution homes
 
-The DoD carries the business/engineer split Minh defined: business owns the prose scenarios, engineers
-implement the executable suite.
+The DoD carries the business/engineer split: business owns the prose scenarios, engineers implement the
+executable suite. Point at **the project's own** e2e locations and tooling - do not assume a fixed layout.
 
 ```
 ## Definition of Done
-- [ ] All E2E scenarios pass on the local stack (`docker compose up --build`)
-- [ ] Business-owned prose scenarios recorded in `e2e/specs/` (the scenarios above are the source)
-- [ ] Executable suite implemented in `e2e/tests/` (Playwright / k6), one test per scenario
+- [ ] All E2E scenarios pass on the local stack (`[run command]`)
+- [ ] Business-owned prose scenarios recorded in [the project's e2e spec location] (the scenarios above are the source)
+- [ ] Executable suite implemented in [the project's e2e test suite], one test per scenario, using the project's e2e framework (e.g. Playwright / k6)
 - [ ] Test data seeded: [tenants / accounts / roles the journeys require]
 - [ ] No runtime or console errors during runs
 - [ ] Reviewed and merged to `[target-branch]` via MR from `[source-branch]`
 ```
 
-Point at the repo's central `e2e/` homes; do not fork the scenarios into a second source of truth.
+Point at the project's existing e2e spec and test locations; do not fork the scenarios into a second source
+of truth. (Where a project has no e2e home yet, that is a `[TBD - ...]` for the team to resolve, not a path
+to invent.)
 
 ### 3.4 Dependencies - runs last
 
@@ -140,8 +146,7 @@ Blocked by all of them, because the journey cannot pass until each story it chai
 
 ## 4. Scenario patterns to reach for
 
-Adapted from the requirements-elicitation scenario patterns; use them to reach coherent journey coverage
-**without** drifting down into unit ACs.
+Use these to reach coherent journey coverage **without** drifting down into unit ACs.
 
 - **Happy-path spine** - the primary journey the feature exists for, chained across the stories that deliver
   it (set -> apply -> observe). Always the first scenario.
@@ -149,7 +154,8 @@ Adapted from the requirements-elicitation scenario patterns; use them to reach c
   the full journey, not just one endpoint. This is a seam by nature (it spans the setting story and the
   isolation story), so it belongs here.
 - **Default / backward-compatibility path** - the journey a user hits when no one took the configuring
-  action, proving the feature degrades to the safe default end-to-end.
+  action, proving the default value flows through the same rendering/behaviour path the configured value
+  uses - end-to-end, with zero configuration.
 - **Edge / scale variant** - boundary states along the journey, only where a boundary emerges from two
   stories interacting (not a single story's boundary AC).
 
@@ -162,7 +168,8 @@ duplicate - drop it. Every scenario must cross a seam.
 
 Feature: admins choose a per-tenant number format (comma-style `1,234,567.89` or dot-style `1.234.567,89`)
 applied site-wide. Built by five sibling stories: SEA-20 maintain setting, SEA-21 apply site-wide, SEA-22
-view read-only, SEA-23 enforce tenant isolation, SEA-24 default for unset tenants.
+view read-only, SEA-23 enforce tenant isolation, SEA-24 default for unset tenants. The concrete run command,
+paths, tools, and accounts below are this project's - a different project fills in its own.
 
 ```markdown
 ---
@@ -177,7 +184,7 @@ jira_key:
 ---
 
 ## User Story
-**As the** business owner of the number-format feature,
+**As a** business owner of the number-format feature,
 **I want** the complete admin-to-end-user journey validated end-to-end across roles and tenants,
 **So that** we have one executable guarantee the feature works as a whole before release.
 
@@ -185,32 +192,32 @@ jira_key:
 
 ## Acceptance Criteria
 
-> Scope: this ticket verifies cross-story journeys and seams. Per-story behaviour is verified in
-> SEA-20..24 and is deliberately not re-listed here.
+*Scope: this ticket verifies cross-story journeys and seams. Per-story behaviour is verified in
+SEA-20..24 and is deliberately not re-listed here.*
 
 ### E2E1 - Admin Sets Format, Users See It Everywhere  (stitches SEA-20 -> SEA-21)
-- [ ] **Given** tenant VN is on comma-style and I am signed in as Market Admin (`pei5566`)
-      **When** I set Number Format to dot-style in System Settings > Advanced and save
-      **Then** dashboard KPIs, report figures, list counts, and percentages all render **`1.234.567,89`**
-      **And** no screen still shows the previous comma-style format (the saved value drives every display).
+- **Given** tenant VN is on comma-style and I am signed in as Market Admin (`pei5566`)
+- **When** I set Number Format to dot-style in System Settings > Advanced and save
+- **Then** dashboard KPIs, report figures, list counts, and percentages all render **`1.234.567,89`**
+- **And** no screen still shows the previous comma-style format - the saved value drives every display
 
 ### E2E2 - Role Continuity  (stitches SEA-20 -> SEA-22)
-- [ ] **Given** the admin has saved dot-style for tenant VN
-      **When** a C role (`c1_test`) opens System Settings > Advanced
-      **Then** the setting shows dot-style, read-only, with no **Save** control
-      **And** a direct API write by that role is rejected (what A set is exactly what C sees and cannot change).
+- **Given** the admin has saved dot-style for tenant VN
+- **When** a C role (`c1_test`) opens System Settings > Advanced
+- **Then** the setting shows dot-style, read-only, with no **Save** control
+- **And** a direct API write by that role is rejected - what A set is exactly what C sees and cannot change
 
 ### E2E3 - Isolation Across The Journey  (stitches SEA-21 + SEA-23)
-- [ ] **Given** tenant VN is on dot-style and tenant KH is on comma-style
-      **When** the admin switches to tenant KH
-      **Then** KH renders comma-style and VN's earlier change left KH's display and stored value untouched
-      **And** a cross-tenant request (URL, payload, or ID) returns nothing from the other tenant.
+- **Given** tenant VN is on dot-style and tenant KH is on comma-style
+- **When** the admin switches to tenant KH
+- **Then** KH renders comma-style and VN's earlier change left KH's display and stored value untouched
+- **And** a cross-tenant request (URL, payload, or ID) returns nothing from the other tenant
 
-### E2E4 - Default Path, No Admin Action  (stitches SEA-24 -> SEA-21)
-- [ ] **Given** a tenant that has never set a number format, on a freshly migrated database
-      **When** any user views numbers anywhere in the product
-      **Then** figures render identically to the current `en-US` comma-style behaviour
-      **And** no admin interaction occurred anywhere in the journey.
+### E2E4 - Default Flows End-to-End With No Config  (stitches SEA-24 -> SEA-21)
+- **Given** a tenant that has never set a number format, on a freshly migrated database
+- **When** any user views numbers anywhere in the product
+- **Then** the migration-backfilled default value is applied by the same site-wide rendering path SEA-21 uses for a chosen format
+- **And** no per-tenant setting row was ever created - the default reaches the screen end-to-end with zero configuration
 
 ---
 
@@ -232,9 +239,11 @@ jira_key:
 ```
 
 Notice what the four scenarios do **not** contain: they never restate SEA-21's "comma-style renders
-`1,234,567.89`", SEA-22's hidden-Save AC, or SEA-24's migration-backfill AC. Each asserts only the seam
-(saved value drives display; A's choice is what C sees; one tenant's change spares another; the default path
-needs no action). That is coherence without duplication.
+`1,234,567.89`", SEA-22's hidden-Save AC, or SEA-24's default-and-backfill AC. E2E4 in particular does not
+re-assert SEA-24's "looks like en-US" outcome; it asserts the *seam* - that the backfilled default reaches
+the screen through SEA-21's rendering path with no setting row. Each scenario asserts only a hand-off (saved
+value drives display; A's choice is what C sees; one tenant's change spares another; the default flows with
+zero config). That is coherence without duplication.
 
 ---
 
@@ -244,10 +253,10 @@ needs no action). That is coherence without duplication.
 |------|-------|
 | issue_type | `Story` (sibling under the Epic) |
 | category | `Total New` (net-new test asset; do not flag) |
-| User Story persona | the business owner of the feature |
-| AC format | Given-When-Then scenarios, numbered `E2E#` - scoped exception to the declarative rule |
-| Scope banner | required first line of Acceptance Criteria |
-| Every scenario | crosses a seam between ≥2 named sibling stories; never restates a unit AC |
-| DoD | prose scenarios in `e2e/specs/`, executable suite in `e2e/tests/`, seeded test data |
+| User Story persona | a business owner of the feature (`As a` form) |
+| AC format | Given-When-Then scenarios, numbered `E2E#`, as plain bullets (no checkbox) - scoped exception to the declarative rule |
+| Scope banner | required italic first line of Acceptance Criteria |
+| Every scenario | crosses a seam between >=2 named sibling stories; never restates a unit AC |
+| DoD | prose scenarios in the project's e2e spec location, executable suite in its e2e test location, seeded test data |
 | Dependencies | Blocked by every sibling story it validates |
 | When to create | one per coherent feature Epic; proposed in review Step 4 or on PO request |

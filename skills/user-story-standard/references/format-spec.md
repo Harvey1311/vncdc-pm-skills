@@ -203,9 +203,11 @@ do not leave it vague, and do not invent a number.
 The declarative present-tense form above is the rule for every normal story. The **E2E validation ticket**
 (see `references/e2e-validation-ticket.md`) is the one deliberate exception: its Acceptance Criteria are
 written as **Given-When-Then scenarios** numbered `E2E#`, because an end-to-end journey is a
-precondition -> action -> outcome sequence and reads clearly only in that shape. This exception is scoped to
-the E2E ticket alone - it is not a contradiction of the declarative rule, and it does not license
-Given-When-Then in ordinary stories.
+precondition -> action -> outcome sequence and reads clearly only in that shape. Each scenario is a heading
+plus **plain bullets** - one bullet per Given / When / Then / And, **no `- [ ]` checkbox** (so a multi-line
+scenario renders cleanly on a Jira push). This exception is scoped to the E2E ticket alone - it is not a
+contradiction of the declarative rule, and it does not license Given-When-Then, or dropping the checkbox, in
+ordinary stories.
 
 ---
 
