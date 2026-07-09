@@ -9,6 +9,26 @@ Pre-generation analysis. **No story files are written until the PO approves this
 
 ---
 
+## 0. Source Consistency Audit
+
+The source document audited as a whole for internal self-contradiction, including sections not turned
+into stories (background, mapping tables, role/permission matrices, API/data-boundary notes,
+appendices). Quote both sides of any genuine contradiction with locations; never invent one.
+
+**[RED] NEEDS INPUT - requirement contradiction** (two source statements that cannot both be true - a
+role's capability, an allowed value, a default, a timing/trigger, or any behaviour stated two ways;
+must resolve with the PO before generation; do not silently pick a side; list every one):
+- [what conflicts]: "[statement A]" ([location]) contradicts "[statement B]" ([location]).
+
+**[YELLOW] Advisory** (structural / metadata / cross-reference / normativity / naming):
+- [broken cross-reference | numbering gap | metadata unset-or-self-contradictory | "suggested" value
+  that a normative section mandates | naming drift]: [detail + location].
+
+(If none: "Source is internally consistent; no contradictions, broken references, structural gaps, or
+metadata issues found.")
+
+---
+
 ## 1. Proposed items
 
 | # | Title | issue_type | epic | slug |

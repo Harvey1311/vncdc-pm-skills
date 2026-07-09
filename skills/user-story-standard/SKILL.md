@@ -128,9 +128,41 @@ can redirect. The same resolved folder is reused for `review.md` (Step 4) and th
 ### Step 4 - Analysis pass: write `review.md` (NO story files yet)
 Produce `review.md` in the resolved output folder (see **Output layout**) using
 `assets/review-template.md`. It must contain:
+0. **Source consistency audit** - before analysing items, audit the source **document as a whole**
+   for internal self-contradiction. Read the ENTIRE source, including the sections you will NOT turn
+   into stories (background prose, mapping tables, role/permission matrices, API/data-boundary notes,
+   appendices) - contradictions hide precisely there, and the dev team reads those sections too. Flag:
+   - **Requirement contradiction** - two statements in the source that cannot both be true about the
+     same thing: a role's capability (permission/role - e.g. a role that "can edit" in the role table
+     but is excluded by a permission/gate named in a background or appendix section), an allowed value,
+     a default, a timing or trigger, or any single behaviour described two different ways across
+     sections or ACs (e.g. one section says a change applies "immediately" while an AC says it applies
+     "on reload/navigate"). List **every** such contradiction, not just the first. This is a **blocking
+     `[RED]` NEEDS INPUT** whenever it concerns something that drives story content (who may do what,
+     allowed values, defaults, when/how a behaviour fires): surface both statements with their
+     locations and resolve with the PO. **Never silently pick one side** - silent resolution
+     (generating correct-looking stories off one side while the other still contradicts them in the
+     source) is the exact failure this audit exists to prevent. This source-level audit is separate
+     from the cross-story consistency check (item 6, which compares the generated stories to each
+     other); completing item 0 never lets you skip item 6.
+   - **Broken internal cross-reference** - a reference to an AC id, section number, story id, or
+     appendix that does not resolve within the document.
+   - **Structural gap** - non-contiguous section/subsection numbering, or a section referenced but
+     missing.
+   - **Metadata quality** - required frontmatter/header fields unset or self-contradictory (e.g.
+     `owner: TBD`, a status cell reading "Confirmed ... (TBD)").
+   - **Normativity conflict** - a value or name labelled "suggested / example / non-normative" that a
+     normative section nonetheless mandates exactly.
+   - **Naming drift** - the same entity named inconsistently across prose, tables, and metadata/links.
+   The requirement contradiction is the blocking `[RED]`; the other five categories are advisory
+   `[YELLOW]` unless one would change a story's meaning. **Never invent a contradiction** - if two
+   statements can be reconciled they are not in conflict. Flag only genuine, quotable contradictions:
+   quote both sides and cite their locations.
 1. **Proposed items** - a numbered list of `title` / `issue_type` / `epic` / slug for every item.
 2. **Source traceability** - a map from each story slug to the exact source location it came from,
    plus a list of source items deliberately skipped (with reason). Proves nothing was invented.
+   Skipping a section here means it produces no story - it does **not** exempt that section from the
+   item-0 source-consistency audit above.
 3. **Coverage check** - confirm every source requirement maps to at least one story; flag any
    unmapped source item as a potential omission.
 4. **Ambiguity flags** - anything where the fields a given `issue_type` needs cannot be determined:
