@@ -137,14 +137,10 @@ Produce `review.md` in the resolved output folder (see **Output layout**) using
      but is excluded by a permission/gate named in a background or appendix section), an allowed value,
      a default, a timing or trigger, or any single behaviour described two different ways across
      sections or ACs (e.g. one section says a change applies "immediately" while an AC says it applies
-     "on reload/navigate"). List **every** such contradiction, not just the first. This is a **blocking
-     `[RED]` NEEDS INPUT** whenever it concerns something that drives story content (who may do what,
-     allowed values, defaults, when/how a behaviour fires): surface both statements with their
-     locations and resolve with the PO. **Never silently pick one side** - silent resolution
-     (generating correct-looking stories off one side while the other still contradicts them in the
-     source) is the exact failure this audit exists to prevent. This source-level audit is separate
-     from the cross-story consistency check (item 6, which compares the generated stories to each
-     other); completing item 0 never lets you skip item 6.
+     "on reload/navigate"). List **every** such contradiction, not just the first. Surface both
+     statements with their locations and resolve with the PO. **Never silently pick one side** - silent
+     resolution (generating correct-looking stories off one side while the other still contradicts them
+     in the source) is the exact failure this audit exists to prevent.
    - **Broken internal cross-reference** - a reference to an AC id, section number, story id, or
      appendix that does not resolve within the document.
    - **Structural gap** - non-contiguous section/subsection numbering, or a section referenced but
@@ -154,10 +150,12 @@ Produce `review.md` in the resolved output folder (see **Output layout**) using
    - **Normativity conflict** - a value or name labelled "suggested / example / non-normative" that a
      normative section nonetheless mandates exactly.
    - **Naming drift** - the same entity named inconsistently across prose, tables, and metadata/links.
-   The requirement contradiction is the blocking `[RED]`; the other five categories are advisory
-   `[YELLOW]` unless one would change a story's meaning. **Never invent a contradiction** - if two
-   statements can be reconciled they are not in conflict. Flag only genuine, quotable contradictions:
-   quote both sides and cite their locations.
+   The requirement contradiction is a blocking `[RED]` NEEDS INPUT; the other five categories are
+   advisory `[YELLOW]` unless one would change a story's meaning. **Never invent a contradiction** - if
+   two statements can be reconciled they are not in conflict. Flag only genuine, quotable
+   contradictions: quote both sides and cite their locations. This source-level audit does not replace
+   the cross-story consistency check (item 6, which compares the generated stories to each other) -
+   completing item 0 never lets you skip item 6.
 1. **Proposed items** - a numbered list of `title` / `issue_type` / `epic` / slug for every item.
 2. **Source traceability** - a map from each story slug to the exact source location it came from,
    plus a list of source items deliberately skipped (with reason). Proves nothing was invented.
