@@ -162,7 +162,16 @@ Produce `review.md` in the resolved output folder (see **Output layout**) using
    Skipping a section here means it produces no story - it does **not** exempt that section from the
    item-0 source-consistency audit above.
 3. **Coverage check** - confirm every source requirement maps to at least one story; flag any
-   unmapped source item as a potential omission.
+   unmapped source item as a potential omission. **If the source ships its own completeness or
+   acceptance checklist - a "Page Function Completeness Checklist", a numbered acceptance list, an
+   Out-of-Scope list, or a decision trail such as Open Questions - that checklist IS the coverage
+   oracle. Reproduce it as a row-by-row table in `review.md` (section 3) mapping EVERY row to the
+   story + AC that carries it, or to "N/A because ...". A hand-wave like "flows into the ACs" is
+   forbidden: each row is resolved explicitly, in writing. Negative / exclusion rows (e.g. "App Push
+   only / do not display SMS-EDM UI") map to no user action and are the easiest to silently drop -
+   list every one and confirm it has an AC. Run this diff against the PRIMARY source document, NEVER a
+   downstream brief / deck / summary (a summary is a compression that shares its own blind spots, so a
+   check against it can miss what the source contains).**
 4. **Ambiguity flags** - anything where the fields a given `issue_type` needs cannot be determined:
    for a Story, persona / goal / benefit; for a **Bug**, current behaviour or expected behaviour; for
    a Spike / Task / Deployment, the one-line problem/goal statement; and for any type, the `issue_type`
@@ -252,6 +261,15 @@ silently fill content. Then emit the **Flags Summary** (format in
 
 **Tripwire:** if any [RED] NEEDS INPUT survives to this point, generation ran before the analysis was
 approved. STOP - do not emit a completion summary - and return to Step 5 for approval.
+
+**Coverage tripwire:** before emitting the Flags Summary, re-run the section-3 source-checklist map
+against the generated files - diff EVERY row of the source's own completeness / acceptance checklist
+(and its Out-of-Scope and Open-Questions items) against the actual ACs written. If any row is unmapped
+- especially a negative / exclusion row like "App Push only" - STOP, add the missing AC, and do not
+claim coverage. This is a content check, distinct from the format-only fixes above: "verified" /
+"complete" / "all covered" may only be claimed after this diff passes against the PRIMARY source, not
+a brief or summary. If the source shipped no such checklist, say so explicitly instead of skipping the
+step.
 
 ### Step 9 - Optional Jira push
 Only if the PM asks. Read `references/jira-push.md` and follow it. It discovers Jira custom-field IDs

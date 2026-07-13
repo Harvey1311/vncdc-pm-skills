@@ -60,7 +60,22 @@ no story.
 - **Unmapped source items** (potential omissions): [Row/section that produced no story - confirm it
   is intentional, or a story is missing.]
 
-(If none: "Every source item maps to a story or is listed as a deliberate skip above.")
+**Source completeness-checklist map** - REQUIRED whenever the source ships its own completeness /
+acceptance checklist, Out-of-Scope list, or decision trail (Open Questions). That checklist is the
+coverage oracle: reproduce EVERY row and resolve it here. No row may be left as "flows into the ACs";
+each maps to a concrete AC or is marked N/A with a reason. Verify against the primary source, not a
+brief / deck / summary. Pay special attention to negative / exclusion rows (e.g. channel restrictions,
+"do not display X") - they map to no user action and are the easiest to drop.
+
+| Source checklist row (verbatim) | Covered by (story-slug + AC#) or N/A + reason |
+|---------------------------------|-----------------------------------------------|
+| [row 1] | [story-slug AC#] |
+| [exclusion row, e.g. "App Push only / no SMS-EDM UI"] | [story-slug AC#] |
+
+(If the source ships no such checklist: "Source ships no completeness/acceptance checklist; coverage
+verified row-by-row against the requirement sections directly.")
+
+(If none unmapped: "Every source item maps to a story or is listed as a deliberate skip above.")
 
 ---
 
