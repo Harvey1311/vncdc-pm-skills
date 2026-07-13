@@ -5,8 +5,7 @@
     "email": "harvey.pham@tpisoftware.com"
   },
   "metadata": {
-    "description": "VNCDC PM/PO skills for standardized product delivery artifacts",
-    "version": "1.1.1"
+    "description": "VNCDC PM/PO skills for standardized product delivery artifacts"
   },
   "plugins": [
     {
