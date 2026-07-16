@@ -110,6 +110,9 @@ otherwise identical. Spike / Task / Deployment keep the `## User Story` heading.
 - The capability starts with an infinitive action verb ("access", "view", "select", "configure").
 - Do NOT write `**I want to** the system to...` - the subject after "I want to" must be an infinitive
   verb, not a noun phrase.
+- Scoped exception: the E2E validation ticket uses `**I want**` (no "to") with a passive outcome, not
+  `**I want to**` + infinitive - see `references/e2e-validation-ticket.md` section 3.1. It is the one
+  documented deviation, mirroring the Given-When-Then AC exception in section 4.
 
 ### Non-Story issue types
 
@@ -223,7 +226,7 @@ ordinary stories.
 ```
 
 ### Profile items (from the chosen stack profile)
-The default VNCDC web profile adds, in order, between the first and last core items:
+The default VNCDC web profile adds these, positioned per **Assembled order (canonical)** below:
 ```markdown
 - [ ] TypeScript compiles without errors (`tsc --noEmit`)
 - [ ] English & Traditional Chinese (zh) translations added:
@@ -239,6 +242,17 @@ A non-TS or no-i18n project drops/replaces these per `stack-profiles.md`. `[targ
 - [ ] Integration test written for [scenario] (see `automation_test/api-integration-test-instructions.md`)
 - [ ] Tested: [scenario] leads to [expected outcome]
 ```
+
+### Assembled order (canonical)
+Assemble the DoD in exactly this order, so every story is byte-identical regardless of operator:
+1. `All acceptance criteria implemented and verified` - core, always first.
+2. Story-specific items (the `Tested: ...`, DB-migration, and unit/integration-test lines above) - when
+   applicable.
+3. Profile items from the chosen stack profile (e.g. `tsc --noEmit`, the translations item).
+4. `No runtime or console errors` - core.
+5. `Code reviewed and merged to [target-branch] via MR from [source-branch]` - core, always last.
+
+Both worked-example DoDs in `worked-example.md` follow this order exactly - pattern-match against them.
 
 ---
 

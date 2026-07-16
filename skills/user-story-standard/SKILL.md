@@ -5,7 +5,7 @@ description: >-
   issues. Use when a PM/PO wants to turn requirements (Excel, CSV, PDF, Word, a pasted table, or raw
   text) into individual story .md files with a fixed format, or to create standardized Jira issues
   from those requirements. Triggers include "apply the user-story standard", "convert this to user stories",
-  "generate user stories from <file>", "process this input", "standardize these stories", "create
+  "generate user stories from <file>", "standardize these stories", "create
   Jira stories/issues from <requirements>". Do NOT use for editing an existing single Jira ticket's
   wording, for writing PRDs or specs, or for non-story documents.
 license: Proprietary - VNCDC internal use
@@ -16,6 +16,10 @@ license: Proprietary - VNCDC internal use
 The VNCDC company standard for turning product requirements into individual user-story `.md` files
 and, optionally, standardized Jira issues. Every file and issue produced shares the same structure,
 style, and naming, regardless of project, stack, or operator.
+
+**A note on roles:** this document uses **PO** and **PM** interchangeably for the person who owns the
+requirements and approves the two gates (the analysis approval and the Jira-push confirmation); use
+whichever term your project uses.
 
 ## Format vs Content - the one rule that governs everything
 
@@ -122,7 +126,8 @@ can redirect. The same resolved folder is reused for `review.md` (Step 4) and th
 - **Edge cases - flag, do not guess:** merged cells, one row holding several items (flag; if it is one
   oversized requirement rather than separate items, carry it as a single item and propose the split in
   Step 4 item 8 - never guess it apart here), blank rows (skip), image-only PDF with no extractable text
-  (stop and say so), non-English input (flag for confirmation), IDs already present in the source
+  (stop and say so), non-English input (flag; once the PO confirms an English `title`, translate/transliterate it to
+  ASCII before deriving any slug - see `format-spec.md` section 7), IDs already present in the source
   (ignore them - we do not use synthetic IDs).
 
 ### Step 4 - Analysis pass: write `review.md` (NO story files yet)

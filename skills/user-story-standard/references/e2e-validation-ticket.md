@@ -73,6 +73,11 @@ the standard's `As a` / `As an` form, section 3 of `format-spec.md`):
 
 Three lines, same punctuation rules as a normal User Story. This is content, not a format change.
 
+**The middle line uses `**I want**` (no "to"), not the normal story's `**I want to**`:** the object here
+is a passive outcome ("the complete journey validated"), not an infinitive action, so "to" is dropped.
+This is a deliberate, scoped deviation from the `**I want to** [infinitive]` rule in `format-spec.md`
+section 3 - the same class of scoped exception as the Given-When-Then AC form - not a violation of it.
+
 ### 3.2 Acceptance Criteria - Given-When-Then scenarios
 
 **Scoped format exception.** Normal stories use declarative checkbox ACs (`### AC# - Title`, present tense).

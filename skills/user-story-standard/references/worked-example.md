@@ -66,7 +66,8 @@ jira_key:
 - No synthetic `id` field; identity is the slug `user-profile-settings` (and `jira_key` once pushed).
 - `issue_type: Story` and empty `jira_key` are present.
 - All dashes are plain hyphens.
-- The DoD = universal core + VNCDC Web profile items + one story-specific test item.
+- The DoD follows the canonical assembled order (`format-spec.md` section 5): core first item, then the
+  story-specific test item, then the VNCDC Web profile items, then the two remaining core items.
 - `Blocked by` references another story by **slug** (`user-authentication`), which must exist in the
   same batch or be flagged as dangling.
 

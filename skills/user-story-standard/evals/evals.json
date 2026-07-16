@@ -1,0 +1,112 @@
+{
+  "skill_name": "user-story-standard",
+  "evals": [
+    {
+      "id": 0,
+      "name": "clean-happy-path",
+      "prompt": "Apply the user-story standard to turn these requirements into user stories. This is pasted from our PRD - no file, just this table. Epic is \"Saved Searches\". Use VNCDC web defaults for the stack. We're not pushing to Jira yet.\n\n| # | Requirement | Priority | Notes |\n|---|-------------|----------|-------|\n| 1 | A user can save the current search with a name so they can reuse it later | High | |\n| 2 | A user can see a list of all their saved searches | Medium | |\n| 3 | A user can run a saved search with a single click, which re-applies its filters | High | |\n| 4 | A user can delete a saved search they no longer need | Low | confirmation prompt before delete |\n| 5 | Saved search names must be unique for a given user | Medium | show an error if the name is already taken |",
+      "expected_output": "Writes review.md only (in a resolved user-stories/ folder), announces the resolved output path, then STOPS and asks for approval. NO story .md files written. review.md contains the 11-section analysis with proposed items, source traceability, coverage, and no invented content.",
+      "files": [],
+      "assertions": [
+        {
+          "id": "a1",
+          "text": "A file named review.md was written in the output tree"
+        },
+        {
+          "id": "a2",
+          "text": "NO individual story .md files were written (no epic-*/*.md, no per-story files) - the run stopped before Step 6 generation"
+        },
+        {
+          "id": "a3",
+          "text": "The run explicitly stopped and asked for PO approval of the analysis before generating any story files (analysis-first gate honoured)"
+        },
+        {
+          "id": "a4",
+          "text": "The resolved output folder path was announced/stated before the first write"
+        },
+        {
+          "id": "a5",
+          "text": "review.md contains the analysis structure: a source consistency audit, a numbered proposed-items list, source traceability, and a coverage check"
+        },
+        {
+          "id": "a6",
+          "text": "Output contains ONLY plain ASCII hyphens - no en-dash (U+2013) or em-dash (U+2014) anywhere"
+        },
+        {
+          "id": "a7",
+          "text": "No fabricated content: proposed items trace to the 5 pasted requirements; nothing invented beyond them"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "contradiction-and-vague",
+      "prompt": "Apply the user-story standard to this mini-spec (pasted, no file). Epic is \"Report Management\". VNCDC web defaults. Not pushing to Jira yet.\n\n--- SPEC ---\nRoles and permissions:\n| Role | Capabilities |\n| Editor | Can create, edit, and delete reports |\n| Viewer | Can view and edit reports |\n\nRequirements:\n1. A user can create a new report from a template.\n2. The report list page should load fast.\n3. Deleting a report should remove it from the recent-reports sidebar.\n\nBackground notes:\nViewers have strictly read-only access and cannot modify any report in any way.\n\nKnown defect:\nCurrently, when a user deletes a report, it stays visible in the recent-reports sidebar until the page is manually refreshed. It should disappear from the sidebar right away.\n--- END SPEC ---",
+      "expected_output": "review.md flags the Viewer contradiction (role table says Viewer 'can edit' vs background note 'strictly read-only') as a [RED] requirement contradiction, quoting both sides with locations. Flags 'load fast' as untestable (no concrete figure) rather than inventing a number. Treats the known defect as a Bug (## Bug Details, Current/Expected Behaviour). STOPS for approval; no story files written.",
+      "files": [],
+      "assertions": [
+        {
+          "id": "a1",
+          "text": "A file named review.md was written"
+        },
+        {
+          "id": "a2",
+          "text": "review.md flags the Viewer contradiction as a [RED] requirement contradiction - role table says Viewer 'can view and edit' while the background note says Viewer is 'strictly read-only' - quoting BOTH sides with their locations, not silently picking one"
+        },
+        {
+          "id": "a3",
+          "text": "The vague requirement 'load fast' is flagged as untestable / needing a concrete figure from the PO, and NO performance number was invented"
+        },
+        {
+          "id": "a4",
+          "text": "The known defect (deleted report lingering in sidebar) is classified as issue_type Bug and would use ## Bug Details with Current/Expected Behaviour, not a plain Story"
+        },
+        {
+          "id": "a5",
+          "text": "The run stopped for PO approval and wrote NO story .md files"
+        },
+        {
+          "id": "a6",
+          "text": "Output contains ONLY plain ASCII hyphens - no U+2013 or U+2014"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "journey-and-oversized",
+      "prompt": "Apply the user-story standard to these requirements (pasted, no file). Epic is \"Audience Tagging\". VNCDC web defaults. Not pushing to Jira yet.\n\n1. An admin can manage the tag database: add new tags, rename existing tags, and delete tags, and see the full list of tags.\n2. An admin can apply one or more tags to an audience.\n3. An admin can remove a tag from an audience.\n4. A user can filter the audience list by one or more tags.\n5. Tag changes made by an admin in one tenant must never affect or be visible to another tenant.",
+      "expected_output": "review.md proposes slicing item 1 (oversized - bundles add/rename/delete/list) into thin vertical slices, naming the slicing lens, as an advisory proposal with a single-story fallback. Proposes an optional E2E validation ticket for the manage->apply->filter->observe journey under the one Epic (advisory). Dependency graph resolves by slug. STOPS for approval; no story files written.",
+      "files": [],
+      "assertions": [
+        {
+          "id": "a1",
+          "text": "A file named review.md was written"
+        },
+        {
+          "id": "a2",
+          "text": "Item 1 (manage tag database) is flagged as oversized with a PROPOSED decomposition into thin vertical slices, a NAMED slicing lens, and an advisory single-story fallback (not imposed)"
+        },
+        {
+          "id": "a3",
+          "text": "An optional E2E validation ticket is PROPOSED for the manage->apply->filter journey under the single Epic, advisory (does not block approval)"
+        },
+        {
+          "id": "a4",
+          "text": "A dependency graph is expressed by slug and references resolve within the batch (no dangling links, or dangling links explicitly flagged)"
+        },
+        {
+          "id": "a5",
+          "text": "Requirement 5 (cross-tenant isolation) is captured as its own story and/or an isolation seam in the E2E proposal"
+        },
+        {
+          "id": "a6",
+          "text": "The run stopped for PO approval and wrote NO story .md files"
+        },
+        {
+          "id": "a7",
+          "text": "Output contains ONLY plain ASCII hyphens - no U+2013 or U+2014"
+        }
+      ]
+    }
+  ]
+}

@@ -78,8 +78,8 @@ build/verify command and whether i18n applies.
 
 ## How to use a profile
 1. In step 2, set the profile (default VNCDC Web).
-2. Build the DoD as: universal core (first item) + profile items + universal core (remaining items),
-   plus any story-specific DoD items from `format-spec.md` section 5.
+2. Build the DoD in the canonical assembled order (`format-spec.md` section 5): core first item ->
+   story-specific items (when applicable) -> profile items -> the remaining core items.
 3. Record the chosen profile in `review.md` so the PO can see and override it.
 
 ## Adding a new profile
